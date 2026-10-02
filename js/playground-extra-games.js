@@ -40,7 +40,7 @@
     .typing-input:focus { border-color:var(--accent); }
     .score-line { display:flex; flex-wrap:wrap; gap:10px; margin:14px 0; }
     .score-pill { border:1px solid var(--border); background:var(--bg-soft); border-radius:999px; padding:7px 11px; font:600 .82rem var(--mono); }
-    .game-alert-backdrop { position:fixed; inset:0; z-index:9999; display:grid; place-items:center; padding:20px; background:rgba(0,0,0,.58); backdrop-filter:blur(8px); opacity:0; visibility:hidden; pointer-events:none; transition:opacity .2s ease,visibility .2s ease; }
+    .game-alert-backdrop { width:100%; max-width:100%; border:0; padding:20px; background:rgba(0,0,0,.58); backdrop-filter:blur(8px); opacity:0; visibility:hidden; pointer-events:none; transition:opacity .2s ease,visibility .2s ease; }
     .game-alert-backdrop.show { opacity:1; visibility:visible; pointer-events:auto; }
     .game-alert { width:min(430px,100%); border:1px solid var(--border); border-radius:24px; padding:28px; text-align:center; background:var(--surface); box-shadow:0 24px 80px rgba(0,0,0,.35); transform:translateY(10px) scale(.97); transition:transform .25s ease; }
     .game-alert-backdrop.show .game-alert { transform:translateY(0) scale(1); }
@@ -101,17 +101,17 @@
   let activeGameAlert = null;
   function showGameAlert({emoji="🎮", title="Bien joué !", message="", button="Continuer"}) {
     if (activeGameAlert) activeGameAlert.remove();
-    const backdrop = document.createElement("div");
-    backdrop.className = "game-alert-backdrop show";
-    backdrop.innerHTML = `<div class="game-alert" role="alertdialog" aria-modal="true" aria-label="${title}"><div class="game-alert-emoji">${emoji}</div><h3>${title}</h3><p>${message}</p><button class="btn btn-primary" type="button">${button}</button></div>`;
+    const backdrop = document.createElement("dialog");
+    backdrop.className = "game-alert-backdrop";
+    backdrop.innerHTML = `<div class="game-alert" role="document"><div class="game-alert-emoji">${emoji}</div><h3>${title}</h3><p>${message}</p><button class="btn btn-primary" type="button">${button}</button></div>`;
     document.body.appendChild(backdrop);
     activeGameAlert = backdrop;
-    const close = () => { backdrop.classList.remove("show"); setTimeout(() => backdrop.remove(), 220); activeGameAlert = null; };
+    const close = () => { backdrop.classList.remove("show"); setTimeout(() => { if (backdrop.open) backdrop.close(); backdrop.remove(); }, 220); activeGameAlert = null; };
     backdrop.querySelector("button").onclick = close;
-    backdrop.onclick = e => { if (e.target === backdrop) close(); };
-    const onKey = e => { if (e.key === "Escape") { close(); document.removeEventListener("keydown", onKey); } };
-    document.addEventListener("keydown", onKey);
-    requestAnimationFrame(() => backdrop.querySelector("button").focus());
+    backdrop.addEventListener("click", e => { if (e.target === backdrop) close(); });
+    backdrop.addEventListener("cancel", e => { e.preventDefault(); close(); });
+    backdrop.showModal();
+    requestAnimationFrame(() => { backdrop.classList.add("show"); backdrop.querySelector("button").focus(); });
   }
 
   function activateTab(tab) {
