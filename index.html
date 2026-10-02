@@ -1146,7 +1146,9 @@
           <label for="contactMessage">Message</label>
           <textarea id="contactMessage" name="message" required maxlength="5000"></textarea>
         </div>
-        <input class="contact-hp" name="website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" />
+        <input type="hidden" name="access_key" value="YOUR_WEB3FORMS_ACCESS_KEY" />
+      <input type="hidden" name="from_name" value="Wael Souabni — Portfolio" />
+      <input class="contact-hp" name="botcheck" type="checkbox" tabindex="-1" autocomplete="off" aria-hidden="true" />
         <div id="contactFormStatus" class="contact-form-status" role="status" aria-live="polite"></div>
         <button id="contactSubmit" class="btn btn-primary" type="submit">Envoyer le message</button>
       </form>
@@ -1695,7 +1697,7 @@
   </script>
   <script src="js/playground-extra-games.js"></script>
   <script>
-    /* CONTACT: formulaire -> Vercel Function -> Resend */
+    /* CONTACT: formulaire -> Web3Forms (HTML + JavaScript natif) */
     (function contactForm() {
       const dialog = document.getElementById('contactDialog');
       const form = document.getElementById('contactForm');
@@ -1709,6 +1711,7 @@
         status.className = 'contact-form-status';
         dialog.showModal();
       };
+
       document.querySelectorAll('[data-contact-open]').forEach((el) => el.addEventListener('click', open));
       document.querySelector('[data-contact-close]')?.addEventListener('click', () => dialog.close());
       dialog.addEventListener('click', (e) => { if (e.target === dialog) dialog.close(); });
@@ -1716,12 +1719,8 @@
       form.addEventListener('submit', async (e) => {
         e.preventDefault();
 
-        // Le formulaire peut être déclenché programmatiquement alors que le <dialog>
-        // est fermé. Dans ce cas, ne tente pas de soumettre ni de valider des champs
-        // qui ne sont pas focusables.
         if (!dialog.open) return;
 
-        // Validation explicite pour garder le contrôle du message affiché à l'utilisateur.
         const name = form.elements.namedItem('name');
         const email = form.elements.namedItem('email');
         const message = form.elements.namedItem('message');
@@ -1742,20 +1741,30 @@
         status.textContent = 'Envoi en cours…';
         status.className = 'contact-form-status';
         submit.disabled = true;
+
         try {
-          const response = await fetch('/api/contact', {
+          const formData = new FormData(form);
+          const response = await fetch('https://api.web3forms.com/submit', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(Object.fromEntries(new FormData(form))),
+            headers: {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json',
+            },
+            body: JSON.stringify(Object.fromEntries(formData)),
           });
+
           const data = await response.json().catch(() => ({}));
-          if (!response.ok) throw new Error(data.error || ('Erreur serveur (' + response.status + ')'));
+
+          if (!response.ok || data.success === false) {
+            throw new Error(data.message || 'L’envoi de l’e-mail a échoué.');
+          }
+
           status.textContent = 'Message envoyé. Merci !';
           status.className = 'contact-form-status success';
           form.reset();
           setTimeout(() => dialog.close(), 1200);
         } catch (error) {
-          console.error('Contact form error:', error);
+          console.error('Web3Forms contact error:', error);
           status.textContent = error.message || 'Une erreur est survenue. Réessaie dans quelques instants.';
           status.className = 'contact-form-status error';
         } finally {
