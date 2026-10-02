@@ -66,35 +66,6 @@
   const memoryPanel = section.querySelector("#panel-memory");
   if (!tabs || !memoryPanel) return;
 
-  const tabHtml = games.map(g =>
-    `<button class="game-tab extra-game-tab" role="tab" id="tab-${g.id}" aria-controls="panel-${g.id}" aria-selected="false">${g.icon} ${g.title}</button>`
-  ).join("");
-  tabs.insertAdjacentHTML("beforeend", tabHtml);
-
-  games.forEach(g => {
-    const panel = document.createElement("div");
-    panel.className = "game-panel extra-games";
-    panel.id = "panel-" + g.id;
-    panel.setAttribute("role", "tabpanel");
-    panel.setAttribute("aria-labelledby", "tab-" + g.id);
-    panel.innerHTML = `
-      <div class="game-card extra-game-board">
-        <div>
-          <div class="arcade-view active" id="view-${g.id}"></div>
-        </div>
-        <aside class="game-side">
-          <h3>${g.icon} ${g.title}</h3>
-          <p>${g.desc}</p>
-          <div class="game-stats">
-            <div class="game-stat"><div class="v">JS</div><div class="k">Vanilla</div></div>
-            <div class="game-stat"><div class="v">0</div><div class="k">Dépendances</div></div>
-          </div>
-          <button class="btn btn-ghost game-restart" type="button">↻ Rejouer</button>
-        </aside>
-      </div>`;
-    memoryPanel.insertAdjacentElement("afterend", panel);
-  });
-
   const allTabs = () => [...section.querySelectorAll(".game-tab")];
   const allPanels = () => [...section.querySelectorAll(".game-panel")];
   let activeGameAlert = null;
@@ -221,7 +192,7 @@
   (function contactModal() {
     if (document.getElementById("contactModal")) return;
 
-    const css = '
+    const css = `
       .contact-modal-backdrop{position:fixed;inset:0;z-index:200;display:grid;place-items:center;padding:20px;background:rgba(3,6,12,.72);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);opacity:0;visibility:hidden;pointer-events:none;transition:opacity .25s ease,visibility .25s ease}
       .contact-modal-backdrop.show{opacity:1;visibility:visible;pointer-events:auto}
       .contact-modal{width:min(760px,100%);max-height:min(88vh,900px);overflow:auto;border:1px solid var(--border);border-radius:28px;background:radial-gradient(520px circle at 0 0,var(--accent-soft),transparent 55%),var(--surface);box-shadow:0 30px 100px rgba(0,0,0,.42);transform:translateY(18px) scale(.97);transition:transform .28s ease}
@@ -261,7 +232,7 @@
       .contact-success{text-align:center;padding:48px 30px}.contact-success-icon{width:76px;height:76px;margin:0 auto 18px;display:grid;place-items:center;border-radius:50%;background:var(--accent-soft);font-size:2.4rem}
       .contact-success h3{font-size:1.5rem;margin-bottom:8px}.contact-success p{color:var(--text-muted);max-width:500px;margin:0 auto 22px}
       @media(max-width:620px){.contact-modal-head{padding:22px 20px 14px}.contact-form{padding:8px 20px 22px}.contact-grid{grid-template-columns:1fr}.contact-field.full{grid-column:auto}.contact-actions{flex-direction:column;align-items:stretch}.contact-submit{width:100%;justify-content:center}}
-    ';
+    `;
     document.head.insertAdjacentHTML("beforeend","<style id='contact-modal-style'>"+css+"</style>");
 
     const modal=document.createElement("div");
