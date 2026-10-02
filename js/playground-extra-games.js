@@ -324,7 +324,7 @@
 
     function openModal(){modal.classList.add("show");modal.setAttribute("aria-hidden","false");document.body.style.overflow="hidden";setTimeout(function(){name.focus();},80);}
     function closeModal(){modal.classList.remove("show");modal.setAttribute("aria-hidden","true");document.body.style.overflow="";}
-    document.querySelectorAll('a[href="#contact"], a[href^="mailto:waelsouabni@gmail.com"]').forEach(function(link){link.addEventListener("click",function(e){e.preventDefault();openModal();});});
+    document.addEventListener("click",function(e){const link=e.target.closest('a[href="#contact"], a[href^="mailto:waelsouabni@gmail.com"]');if(!link)return;e.preventDefault();e.stopImmediatePropagation();openModal();},true);
     modal.querySelector(".contact-close").addEventListener("click",closeModal);
     modal.addEventListener("click",function(e){if(e.target===modal)closeModal();});
     document.addEventListener("keydown",function(e){if(e.key==="Escape"&&modal.classList.contains("show"))closeModal();});
