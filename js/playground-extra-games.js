@@ -201,16 +201,22 @@
     start.onclick=begin;draw();
   }
 
-  // The tab list now contains Snake + Memory + six new games.
-  // Clicking any of the six tabs opens the shared Arcade panel.
+  // Each new game uses the shared Arcade panel.
+  // The tab itself points to a virtual game id, so redirect it to panel-arcade.
   games.forEach(g => {
-    const t=document.querySelector("#tab-"+g.id);
-    t.addEventListener("click",()=>activateTab(t));
+    const t = document.querySelector("#tab-" + g.id);
+    if (!t) return;
+    t.addEventListener("click", e => {
+      e.stopPropagation();
+      allTabs().forEach(x => x.setAttribute("aria-selected", x === t ? "true" : "false"));
+      allPanels().forEach(p => p.classList.toggle("active", p === arcadePanel));
+      startGame(g.id);
+    });
   });
-  arcadePanel.addEventListener("click",e=>{
-    const card=e.target.closest("[data-game]");
-    if(card && document.querySelector("#tab-"+card.dataset.game)){
-      activateTab(document.querySelector("#tab-"+card.dataset.game));
-    }
+
+  // Selecting a card inside Arcade starts that game without changing panels.
+  arcadePanel.addEventListener("click", e => {
+    const card = e.target.closest("[data-game]");
+    if (card) startGame(card.dataset.game);
   });
 })();
