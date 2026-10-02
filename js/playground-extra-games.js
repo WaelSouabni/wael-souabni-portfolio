@@ -19,7 +19,7 @@
     .arcade-card .icon { font-size:2rem; display:block; margin-bottom:10px; }
     .arcade-card h3 { font-size:1rem; margin-bottom:6px; }
     .arcade-card p { color:var(--text-muted); font-size:.82rem; line-height:1.5; }
-    .arcade-view { display:none; }
+    .arcade-view { display:block; }
     .arcade-view.active { display:block; }
     .mini-title { font-size:1.15rem; margin-bottom:8px; }
     .mini-muted { color:var(--text-muted); font-size:.9rem; }
@@ -66,35 +66,34 @@
   const memoryPanel = section.querySelector("#panel-memory");
   if (!tabs || !memoryPanel) return;
 
-  const tabHtml = games.map((g, i) =>
+  const tabHtml = games.map(g =>
     `<button class="game-tab extra-game-tab" role="tab" id="tab-${g.id}" aria-controls="panel-${g.id}" aria-selected="false">${g.icon} ${g.title}</button>`
   ).join("");
   tabs.insertAdjacentHTML("beforeend", tabHtml);
 
-  const arcadePanel = document.createElement("div");
-  arcadePanel.className = "game-panel extra-games";
-  arcadePanel.id = "panel-arcade";
-  arcadePanel.setAttribute("role","tabpanel");
-  arcadePanel.setAttribute("aria-labelledby","tab-arcade");
-  arcadePanel.innerHTML = `
-    <div class="game-card extra-game-board">
-      <div>
-        <div class="arcade-grid" id="arcadeMenu">
-          ${games.map(g => `<button class="arcade-card" data-game="${g.id}"><span class="icon">${g.icon}</span><h3>${g.title}</h3><p>${g.desc}</p></button>`).join("")}
+  games.forEach(g => {
+    const panel = document.createElement("div");
+    panel.className = "game-panel extra-games";
+    panel.id = "panel-" + g.id;
+    panel.setAttribute("role", "tabpanel");
+    panel.setAttribute("aria-labelledby", "tab-" + g.id);
+    panel.innerHTML = `
+      <div class="game-card extra-game-board">
+        <div>
+          <div class="arcade-view active" id="view-${g.id}"></div>
         </div>
-        ${games.map(g => `<div class="arcade-view" id="view-${g.id}"></div>`).join("")}
-      </div>
-      <aside class="game-side">
-        <h3>Arcade</h3>
-        <p>Six nouveaux mini-jeux en JavaScript vanilla, sans librairie externe.</p>
-        <div class="game-stats">
-          <div class="game-stat"><div class="v">6</div><div class="k">Jeux au total</div></div>
-          <div class="game-stat"><div class="v">0</div><div class="k">Dépendances</div></div>
-        </div>
-        <button class="btn btn-ghost" id="arcadeHome">← Choisir un jeu</button>
-      </aside>
-    </div>`;
-  memoryPanel.insertAdjacentElement("afterend", arcadePanel);
+        <aside class="game-side">
+          <h3>${g.icon} ${g.title}</h3>
+          <p>${g.desc}</p>
+          <div class="game-stats">
+            <div class="game-stat"><div class="v">JS</div><div class="k">Vanilla</div></div>
+            <div class="game-stat"><div class="v">0</div><div class="k">Dépendances</div></div>
+          </div>
+          <button class="btn btn-ghost game-restart" type="button">↻ Rejouer</button>
+        </aside>
+      </div>`;
+    memoryPanel.insertAdjacentElement("afterend", panel);
+  });
 
   const allTabs = () => [...section.querySelectorAll(".game-tab")];
   const allPanels = () => [...section.querySelectorAll(".game-panel")];
@@ -129,26 +128,15 @@
   }
 
   function renderView(id, html) {
-    document.querySelector("#arcadeMenu").style.display = "none";
-    document.querySelectorAll(".arcade-view").forEach(v => v.classList.remove("active"));
     const v = document.querySelector("#view-" + id);
+    if (!v) return null;
     v.innerHTML = html;
     v.classList.add("active");
     return v;
   }
-  function home() {
-    document.querySelectorAll(".arcade-view").forEach(v => v.classList.remove("active"));
-    document.querySelector("#arcadeMenu").style.display = "grid";
-  }
-  document.querySelector("#arcadeHome").addEventListener("click", home);
-  document.querySelector("#arcadeMenu").addEventListener("click", e => {
-    const card = e.target.closest("[data-game]");
-    if (!card) return;
-    startGame(card.dataset.game);
-  });
 
   function startGame(id) {
-    const f = {tictactoe:initTicTacToe,minesweeper:initMinesweeper,flappy:initFlappy,pong:initPong,aim:initAim,typing:initTyping}[id];
+    const f = {tictactoe:initTicTacToe,minesweeper:initMinesweeper,flappy:initFlappy,typing:initTyping}[id];
     if (f) f();
   }
 
@@ -222,23 +210,12 @@
     start.onclick=begin;draw();
   }
 
-  // Each new game uses the shared Arcade panel.
-  // The tab itself points to a virtual game id, so redirect it to panel-arcade.
   games.forEach(g => {
-    const t = document.querySelector("#tab-" + g.id);
-    if (!t) return;
-    t.addEventListener("click", e => {
-      e.stopPropagation();
-      allTabs().forEach(x => x.setAttribute("aria-selected", x === t ? "true" : "false"));
-      allPanels().forEach(p => p.classList.toggle("active", p === arcadePanel));
-      startGame(g.id);
-    });
-  });
-
-  // Selecting a card inside Arcade starts that game without changing panels.
-  arcadePanel.addEventListener("click", e => {
-    const card = e.target.closest("[data-game]");
-    if (card) startGame(card.dataset.game);
+    const tab = document.querySelector("#tab-" + g.id);
+    const panel = document.querySelector("#panel-" + g.id);
+    if (!tab || !panel) return;
+    tab.addEventListener("click", () => startGame(g.id));
+    panel.querySelector(".game-restart").addEventListener("click", () => startGame(g.id));
   });
 
   (function contactModal() {
