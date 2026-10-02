@@ -5,8 +5,6 @@
     { id: "tictactoe", icon: "❌", title: "Tic-Tac-Toe", desc: "Affronte une IA simple et essaie d'aligner trois symboles." },
     { id: "minesweeper", icon: "💣", title: "Minesweeper", desc: "Dévoile les cases sans toucher aux mines. Clic droit pour marquer." },
     { id: "flappy", icon: "🐤", title: "Flappy Bird", desc: "Passe entre les tuyaux et tiens le plus longtemps possible." },
-    { id: "pong", icon: "🏓", title: "Pong", desc: "Un duel rétro contre une raquette contrôlée par l'ordinateur." },
-    { id: "aim", icon: "🎯", title: "Aim Trainer", desc: "Clique les cibles le plus vite possible pendant 30 secondes." },
     { id: "typing", icon: "⌨️", title: "Typing Game", desc: "Tape les mots affichés avec rapidité et précision." }
   ];
 
@@ -82,7 +80,7 @@
         <h3>Arcade</h3>
         <p>Six nouveaux mini-jeux en JavaScript vanilla, sans librairie externe.</p>
         <div class="game-stats">
-          <div class="game-stat"><div class="v">8</div><div class="k">Jeux au total</div></div>
+          <div class="game-stat"><div class="v">6</div><div class="k">Jeux au total</div></div>
           <div class="game-stat"><div class="v">0</div><div class="k">Dépendances</div></div>
         </div>
         <button class="btn btn-ghost" id="arcadeHome">← Choisir un jeu</button>
