@@ -1129,7 +1129,7 @@
         <button class="contact-close" type="button" data-contact-close aria-label="Fermer">×</button>
       </div>
 
-      <form id="contactForm" class="contact-form" action="https://api.web3forms.com/submit" method="POST" novalidate>
+      <form id="contactForm" class="contact-form" action="https://api.web3forms.com/submit" method="POST">
         <div class="contact-field">
           <label for="contactName">Nom</label>
           <input id="contactName" name="name" type="text" autocomplete="name" required maxlength="100" />
@@ -1716,58 +1716,7 @@
       document.querySelector('[data-contact-close]')?.addEventListener('click', () => dialog.close());
       dialog.addEventListener('click', (e) => { if (e.target === dialog) dialog.close(); });
 
-      form.addEventListener('submit', async (e) => {
-        e.preventDefault();
-
-        const name = form.elements.namedItem('name');
-        const email = form.elements.namedItem('email');
-        const message = form.elements.namedItem('message');
-
-        if (!name.value.trim() || !email.value.trim() || !message.value.trim()) {
-          status.textContent = 'Veuillez remplir les champs obligatoires.';
-          status.className = 'contact-form-status error';
-          return;
-        }
-
-        if (!email.checkValidity()) {
-          status.textContent = 'Veuillez saisir une adresse e-mail valide.';
-          status.className = 'contact-form-status error';
-          email.focus();
-          return;
-        }
-
-        status.textContent = 'Envoi en cours…';
-        status.className = 'contact-form-status';
-        submit.disabled = true;
-
-        try {
-          const formData = new FormData(form);
-          const response = await fetch(form.action, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'Accept': 'application/json',
-            },
-            body: JSON.stringify(Object.fromEntries(formData)),
-          });
-
-          const data = await response.json().catch(() => ({}));
-
-          if (!response.ok || data.success === false) {
-            throw new Error(data.message || 'L’envoi de l’e-mail a échoué.');
-          }
-
-          status.textContent = 'Message envoyé. Merci !';
-          status.className = 'contact-form-status success';
-          form.reset();
-          setTimeout(() => dialog.close(), 1200);
-        } catch (error) {
-          console.error('Web3Forms contact error:', error);
-          status.textContent = error.message || 'Une erreur est survenue. Réessaie dans quelques instants.';
-          status.className = 'contact-form-status error';
-        } finally {
-          submit.disabled = false;
-        }
+      // Envoi natif HTML vers Web3Forms : pas de fetch ni de backend Vercel.
       });
     })();
   </script>
