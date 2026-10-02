@@ -1715,6 +1715,30 @@
 
       form.addEventListener('submit', async (e) => {
         e.preventDefault();
+
+        // Le formulaire peut être déclenché programmatiquement alors que le <dialog>
+        // est fermé. Dans ce cas, ne tente pas de soumettre ni de valider des champs
+        // qui ne sont pas focusables.
+        if (!dialog.open) return;
+
+        // Validation explicite pour garder le contrôle du message affiché à l'utilisateur.
+        const name = form.elements.namedItem('name');
+        const email = form.elements.namedItem('email');
+        const message = form.elements.namedItem('message');
+
+        if (!name.value.trim() || !email.value.trim() || !message.value.trim()) {
+          status.textContent = 'Veuillez remplir les champs obligatoires.';
+          status.className = 'contact-form-status error';
+          return;
+        }
+
+        if (!email.checkValidity()) {
+          status.textContent = 'Veuillez saisir une adresse e-mail valide.';
+          status.className = 'contact-form-status error';
+          email.focus();
+          return;
+        }
+
         status.textContent = 'Envoi en cours…';
         status.className = 'contact-form-status';
         submit.disabled = true;
