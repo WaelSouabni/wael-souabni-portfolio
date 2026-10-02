@@ -513,6 +513,10 @@
     }
     .has-cursor .cursor-dot, .has-cursor .cursor-ring { opacity: 1; }
     .has-cursor, .has-cursor a, .has-cursor button { cursor: none; }
+    /* Native cursor must remain visible inside the top-layer contact dialog. */
+    .contact-dialog, .contact-dialog *, .contact-dialog input, .contact-dialog textarea, .contact-dialog button { cursor: auto !important; }
+    .contact-dialog button { cursor: pointer !important; }
+    .contact-dialog input, .contact-dialog textarea { cursor: text !important; }
     .cursor-ring.hover {
       width: 64px; height: 64px; margin: -32px 0 0 -32px;
       background: var(--accent-soft); border-color: transparent;
@@ -1689,15 +1693,15 @@
     }
   }
   </script>
-  <script src="js/playground-extra-games.js">    /* =========================================================
-       CONTACT : formulaire -> Vercel Function -> Resend
-       ========================================================= */
+  <script src="js/playground-extra-games.js"></script>
+  <script>
+    /* CONTACT: formulaire -> Vercel Function -> Resend */
     (function contactForm() {
       const dialog = document.getElementById('contactDialog');
       const form = document.getElementById('contactForm');
       const status = document.getElementById('contactFormStatus');
       const submit = document.getElementById('contactSubmit');
-      if (!dialog || !form) return;
+      if (!dialog || !form || !status || !submit) return;
 
       const open = (e) => {
         e.preventDefault();
@@ -1705,37 +1709,29 @@
         status.className = 'contact-form-status';
         dialog.showModal();
       };
-
-      document.querySelectorAll('[data-contact-open]').forEach((el) => {
-        el.addEventListener('click', open);
-      });
-
+      document.querySelectorAll('[data-contact-open]').forEach((el) => el.addEventListener('click', open));
       document.querySelector('[data-contact-close]')?.addEventListener('click', () => dialog.close());
-      dialog.addEventListener('click', (e) => {
-        if (e.target === dialog) dialog.close();
-      });
+      dialog.addEventListener('click', (e) => { if (e.target === dialog) dialog.close(); });
 
       form.addEventListener('submit', async (e) => {
         e.preventDefault();
         status.textContent = 'Envoi en cours…';
         status.className = 'contact-form-status';
         submit.disabled = true;
-
         try {
           const response = await fetch('/api/contact', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(Object.fromEntries(new FormData(form))),
           });
-
           const data = await response.json().catch(() => ({}));
-          if (!response.ok) throw new Error(data.error || 'Impossible d’envoyer le message.');
-
+          if (!response.ok) throw new Error(data.error || ('Erreur serveur (' + response.status + ')'));
           status.textContent = 'Message envoyé. Merci !';
           status.className = 'contact-form-status success';
           form.reset();
           setTimeout(() => dialog.close(), 1200);
         } catch (error) {
+          console.error('Contact form error:', error);
           status.textContent = error.message || 'Une erreur est survenue. Réessaie dans quelques instants.';
           status.className = 'contact-form-status error';
         } finally {
@@ -1743,7 +1739,6 @@
         }
       });
     })();
-
-</script>
+  </script>
 </body>
 </html>
