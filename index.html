@@ -1697,7 +1697,7 @@
   </script>
   <script src="js/playground-extra-games.js"></script>
   <script>
-    /* CONTACT: formulaire -> Web3Forms (HTML + JavaScript natif) */
+    /* CONTACT: envoi direct vers Web3Forms */
     (function contactForm() {
       const dialog = document.getElementById('contactDialog');
       const form = document.getElementById('contactForm');
@@ -1705,10 +1705,17 @@
       const submit = document.getElementById('contactSubmit');
       if (!dialog || !form || !status || !submit) return;
 
+      const setStatus = (message, type = '') => {
+        status.textContent = message;
+        status.className = `contact-form-status${type ? ' ' + type : ''}`;
+      };
+
       const open = (e) => {
         e.preventDefault();
-        status.textContent = '';
-        status.className = 'contact-form-status';
+        form.reset();
+        setStatus('');
+        submit.disabled = false;
+        submit.textContent = 'Envoyer le message';
         dialog.showModal();
       };
 
@@ -1716,7 +1723,45 @@
       document.querySelector('[data-contact-close]')?.addEventListener('click', () => dialog.close());
       dialog.addEventListener('click', (e) => { if (e.target === dialog) dialog.close(); });
 
-      // Envoi natif HTML vers Web3Forms : pas de fetch ni de backend Vercel.
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        if (!form.reportValidity()) return;
+
+        submit.disabled = true;
+        submit.textContent = 'Envoi en cours…';
+        setStatus('Envoi du message…');
+
+        try {
+          const response = await fetch(form.action, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+            body: JSON.stringify(Object.fromEntries(new FormData(form))),
+          });
+
+          const result = await response.json().catch(() => ({}));
+
+          if (!response.ok || result.success === false) {
+            throw new Error(result.message || `Erreur HTTP ${response.status}`);
+          }
+
+          setStatus('Message envoyé ✓ Je vous répondrai rapidement.', 'success');
+          form.reset();
+          submit.textContent = 'Envoyé ✓';
+
+          setTimeout(() => {
+            dialog.close();
+            submit.disabled = false;
+            submit.textContent = 'Envoyer le message';
+            setStatus('');
+          }, 2200);
+        } catch (error) {
+          console.error('Web3Forms submission failed:', error);
+          setStatus('Impossible d’envoyer le message. Réessayez dans quelques instants.', 'error');
+          submit.disabled = false;
+          submit.textContent = 'Réessayer';
+        }
+      });
     })();
   </script>
 </body>
