@@ -324,7 +324,7 @@
 
     function openModal(){modal.classList.add("show");modal.setAttribute("aria-hidden","false");document.body.style.overflow="hidden";setTimeout(function(){name.focus();},80);}
     function closeModal(){modal.classList.remove("show");modal.setAttribute("aria-hidden","true");document.body.style.overflow="";}
-    document.addEventListener("click",function(e){const link=e.target.closest('a[href="#contact"], a[href^="mailto:waelsouabni@gmail.com"]');if(!link)return;e.preventDefault();e.stopImmediatePropagation();openModal();},true);
+    document.addEventListener("click",function(e){const link=e.target.closest('a[href="#contact"]');if(!link)return;e.preventDefault();e.stopImmediatePropagation();openModal();},true);
     modal.querySelector(".contact-close").addEventListener("click",closeModal);
     modal.addEventListener("click",function(e){if(e.target===modal)closeModal();});
     document.addEventListener("keydown",function(e){if(e.key==="Escape"&&modal.classList.contains("show"))closeModal();});
@@ -347,9 +347,7 @@
       if(!d){cat.focus();return;}
       const subject=(priority.checked?"[PRIORITAIRE] ":"")+d.label+" — "+name.value.trim();
       const lines=["Bonjour Wael,","",text,"","---","Nom : "+name.value.trim(),"Email : "+email.value.trim(),company.value.trim()?"Entreprise : "+company.value.trim():"","Type : "+d.label,"Priorité : "+(priority.checked?"Oui":"Non"),"","Message envoyé depuis le portfolio de Wael Souabni."].filter(Boolean);
-      const mailto="mailto:waelsouabni@gmail.com?subject="+encodeURIComponent(subject)+"&body="+encodeURIComponent(lines.join("\n"));
-      window.location.href=mailto;
-      form.innerHTML='<div class="contact-success"><div class="contact-success-icon">✉️</div><h3>Votre message est prêt !</h3><p>Votre messagerie vient d’être ouverte avec les informations déjà préparées. Il ne reste plus qu’à vérifier et envoyer.</p><button class="btn btn-primary" type="button" id="contactDone">Fermer</button></div>';
+      form.innerHTML='<div class="contact-success"><div class="contact-success-icon">✨</div><h3>Merci pour votre message !</h3><p>Votre demande a bien été préparée. L’envoi direct vers mon adresse email sera activé prochainement.</p><button class="btn btn-primary" type="button" id="contactDone">Fermer</button></div>';
       form.querySelector("#contactDone").addEventListener("click",closeModal);
     });
   })();
