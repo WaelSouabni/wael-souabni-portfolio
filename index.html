@@ -910,6 +910,13 @@
           <button class="game-tab" role="tab" id="tab-memory" aria-controls="panel-memory" aria-selected="false">🧠 Memory tech</button>
         </div>
 
+        <!-- ---------- Jeux supplémentaires ---------- -->
+        <button class="game-tab" role="tab" id="tab-tictactoe" aria-controls="panel-tictactoe" aria-selected="false">❌ Tic-Tac-Toe</button>
+        <button class="game-tab" role="tab" id="tab-minesweeper" aria-controls="panel-minesweeper" aria-selected="false">💣 Minesweeper</button>
+        <button class="game-tab" role="tab" id="tab-flappy" aria-controls="panel-flappy" aria-selected="false">🐤 Flappy Bird</button>
+        <button class="game-tab" role="tab" id="tab-typing" aria-controls="panel-typing" aria-selected="false">⌨️ Typing</button>
+      </div>
+
         <!-- ---------- Jeu 1 : Snake ---------- -->
         <div class="game-panel active" id="panel-snake" role="tabpanel" aria-labelledby="tab-snake">
           <div class="game-card">
@@ -962,6 +969,35 @@
               </div>
               <button class="btn btn-ghost" id="memRestart">Nouvelle partie</button>
             </aside>
+          </div>
+        </div>
+      </div>
+
+        <!-- ---------- Jeu 3 : Tic-Tac-Toe ---------- -->
+        <div class="game-panel" id="panel-tictactoe" role="tabpanel" aria-labelledby="tab-tictactoe">
+          <div class="game-card"><div id="view-tictactoe" class="arcade-view"></div>
+            <aside class="game-side"><h3>Tic-Tac-Toe</h3><p>Affronte une petite IA et aligne trois symboles.</p><button class="btn btn-ghost game-restart" type="button">Nouvelle partie</button></aside>
+          </div>
+        </div>
+
+        <!-- ---------- Jeu 4 : Minesweeper ---------- -->
+        <div class="game-panel" id="panel-minesweeper" role="tabpanel" aria-labelledby="tab-minesweeper">
+          <div class="game-card"><div id="view-minesweeper" class="arcade-view"></div>
+            <aside class="game-side"><h3>Minesweeper</h3><p>Dévoile les cases sans toucher aux mines.</p><button class="btn btn-ghost game-restart" type="button">Nouvelle partie</button></aside>
+          </div>
+        </div>
+
+        <!-- ---------- Jeu 5 : Flappy Bird ---------- -->
+        <div class="game-panel" id="panel-flappy" role="tabpanel" aria-labelledby="tab-flappy">
+          <div class="game-card"><div id="view-flappy" class="arcade-view"></div>
+            <aside class="game-side"><h3>Flappy Bird</h3><p>Passe entre les tuyaux et tiens le plus longtemps possible.</p><button class="btn btn-ghost game-restart" type="button">Rejouer</button></aside>
+          </div>
+        </div>
+
+        <!-- ---------- Jeu 6 : Typing Game ---------- -->
+        <div class="game-panel" id="panel-typing" role="tabpanel" aria-labelledby="tab-typing">
+          <div class="game-card"><div id="view-typing" class="arcade-view"></div>
+            <aside class="game-side"><h3>Typing Game</h3><p>Tape les mots affichés avec rapidité et précision.</p><button class="btn btn-ghost game-restart" type="button">Rejouer</button></aside>
           </div>
         </div>
       </div>
