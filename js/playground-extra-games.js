@@ -193,7 +193,7 @@
     if (document.getElementById("contactModal")) return;
 
     const css = `
-      .contact-modal-backdrop{position:fixed;inset:0;z-index:200;display:grid;place-items:center;padding:20px;background:rgba(3,6,12,.72);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);opacity:0;visibility:hidden;pointer-events:none;transition:opacity .25s ease,visibility .25s ease}
+      .contact-modal-backdrop{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;padding:20px;background:rgba(3,6,12,.72);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);opacity:0;visibility:hidden;pointer-events:none;transition:opacity .25s ease,visibility .25s ease}
       .contact-modal-backdrop.show{opacity:1;visibility:visible;pointer-events:auto}
       .contact-modal{width:min(760px,100%);max-height:min(88vh,900px);overflow:auto;border:1px solid var(--border);border-radius:28px;background:radial-gradient(520px circle at 0 0,var(--accent-soft),transparent 55%),var(--surface);box-shadow:0 30px 100px rgba(0,0,0,.42);transform:translateY(18px) scale(.97);transition:transform .28s ease}
       .contact-modal-backdrop.show .contact-modal{transform:none}
@@ -272,7 +272,21 @@
 
     function openModal(){modal.classList.add("show");modal.setAttribute("aria-hidden","false");document.body.style.overflow="hidden";setTimeout(function(){name.focus();},80);}
     function closeModal(){modal.classList.remove("show");modal.setAttribute("aria-hidden","true");document.body.style.overflow="";}
-    document.addEventListener("click",function(e){const link=e.target.closest('a[href="#contact"]');if(!link)return;e.preventDefault();e.stopImmediatePropagation();openModal();},true);
+    function handleContactTrigger(e){
+      const target=e.target instanceof Element ? e.target : e.target.parentElement;
+      const link=target && target.closest('a[href="#contact"], [data-open-contact]');
+      if(!link)return;
+      e.preventDefault();
+      e.stopPropagation();
+      openModal();
+    }
+    document.addEventListener("click",handleContactTrigger,true);
+    document.querySelectorAll('a[href="#contact"], [data-open-contact]').forEach(function(link){
+      link.addEventListener("click",function(e){
+        e.preventDefault();
+        openModal();
+      });
+    });
     modal.querySelector(".contact-close").addEventListener("click",closeModal);
     modal.addEventListener("click",function(e){if(e.target===modal)closeModal();});
     document.addEventListener("keydown",function(e){if(e.key==="Escape"&&modal.classList.contains("show"))closeModal();});
