@@ -40,7 +40,7 @@
     .typing-input:focus { border-color:var(--accent); }
     .score-line { display:flex; flex-wrap:wrap; gap:10px; margin:14px 0; }
     .score-pill { border:1px solid var(--border); background:var(--bg-soft); border-radius:999px; padding:7px 11px; font:600 .82rem var(--mono); }
-    .game-alert-backdrop { width:100%; max-width:100%; border:0; padding:20px; background:rgba(0,0,0,.58); backdrop-filter:blur(8px); opacity:0; visibility:hidden; pointer-events:none; transition:opacity .2s ease,visibility .2s ease; }
+    .game-alert-backdrop { position:fixed; inset:0; width:100%; height:100%; max-width:none; max-height:none; margin:0; box-sizing:border-box; display:grid; place-items:center; border:0; padding:20px; background:transparent; overflow:auto; outline:none; opacity:0; visibility:hidden; pointer-events:none; transition:opacity .2s ease,visibility .2s ease; } .game-alert-backdrop::backdrop { background:rgba(0,0,0,.58); backdrop-filter:blur(8px); }
     .game-alert-backdrop.show { opacity:1; visibility:visible; pointer-events:auto; }
     .game-alert { width:min(430px,100%); border:1px solid var(--border); border-radius:24px; padding:28px; text-align:center; background:var(--surface); box-shadow:0 24px 80px rgba(0,0,0,.35); transform:translateY(10px) scale(.97); transition:transform .25s ease; }
     .game-alert-backdrop.show .game-alert { transform:translateY(0) scale(1); }
