@@ -1131,7 +1131,7 @@
         <button class="contact-close" type="button" data-contact-close aria-label="Fermer">×</button>
       </div>
 
-      <form id="contactForm" class="contact-form" action="https://formsubmit.co/ajax/waelsouabni@gmail.com" method="POST">
+      <form id="contactForm" class="contact-form" action="/api/contact" method="POST">
         <div class="contact-field">
           <label for="contactName">Nom</label>
           <input id="contactName" name="name" type="text" autocomplete="name" required maxlength="100" />
@@ -1148,9 +1148,6 @@
           <label for="contactMessage">Message</label>
           <textarea id="contactMessage" name="message" required maxlength="5000"></textarea>
         </div>
-        <input type="hidden" name="_subject" value="Nouveau message depuis le portfolio de Wael Souabni" />
-        <input type="hidden" name="_template" value="table" />
-        <input type="hidden" name="_url" value="https://wael-souabni-portfolio.vercel.app/" />
         <input class="contact-hp" name="_honey" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" />
         <div id="contactFormStatus" class="contact-form-status" role="status" aria-live="polite"></div>
         <button id="contactSubmit" class="btn btn-primary" type="submit">Envoyer le message</button>
@@ -1700,7 +1697,7 @@
   </script>
   <script src="js/playground-extra-games.js"></script>
   <script>
-    /* CONTACT: envoi direct vers FormSubmit */
+    /* CONTACT: envoi via la fonction Vercel /api/contact + Resend */
     (function contactForm() {
       const dialog = document.getElementById('contactDialog');
       const form = document.getElementById('contactForm');
@@ -1778,7 +1775,7 @@
             setStatus('');
           }, 2200);
         } catch (error) {
-          console.error('FormSubmit submission failed:', error);
+          console.error('Contact submission failed:', error);
           setStatus('Impossible d’envoyer le message. Réessayez dans quelques instants.', 'error');
           submit.disabled = false;
           submit.textContent = 'Réessayer';
