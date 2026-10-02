@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-# Add a Sitemap URL here once the final production domain is fixed.
+Sitemap: https://wael-souabni-portfolio.vercel.app/sitemap.xml
