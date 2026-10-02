@@ -1129,7 +1129,7 @@
         <button class="contact-close" type="button" data-contact-close aria-label="Fermer">×</button>
       </div>
 
-      <form id="contactForm" class="contact-form" novalidate>
+      <form id="contactForm" class="contact-form" action="https://api.web3forms.com/submit" method="POST" novalidate>
         <div class="contact-field">
           <label for="contactName">Nom</label>
           <input id="contactName" name="name" type="text" autocomplete="name" required maxlength="100" />
@@ -1146,7 +1146,7 @@
           <label for="contactMessage">Message</label>
           <textarea id="contactMessage" name="message" required maxlength="5000"></textarea>
         </div>
-        <input type="hidden" name="access_key" value="YOUR_WEB3FORMS_ACCESS_KEY" />
+        <input type="hidden" name="access_key" value="078c60bf-e1cd-4bb0-b290-538bd1107337" />
       <input type="hidden" name="from_name" value="Wael Souabni — Portfolio" />
       <input class="contact-hp" name="botcheck" type="checkbox" tabindex="-1" autocomplete="off" aria-hidden="true" />
         <div id="contactFormStatus" class="contact-form-status" role="status" aria-live="polite"></div>
@@ -1719,8 +1719,6 @@
       form.addEventListener('submit', async (e) => {
         e.preventDefault();
 
-        if (!dialog.open) return;
-
         const name = form.elements.namedItem('name');
         const email = form.elements.namedItem('email');
         const message = form.elements.namedItem('message');
@@ -1744,7 +1742,7 @@
 
         try {
           const formData = new FormData(form);
-          const response = await fetch('https://api.web3forms.com/submit', {
+          const response = await fetch(form.action, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
