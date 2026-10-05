@@ -397,6 +397,47 @@
     .contact-form-status { min-height: 22px; font-size: .86rem; color: var(--text-muted); }
     .contact-form-status.success { color: var(--accent); }
     .contact-form-status.error { color: #f87171; }
+
+    .contact-state {
+      display: grid;
+      justify-items: center;
+      text-align: center;
+      padding: 26px 8px 8px;
+      animation: contactStateIn .35s ease both;
+    }
+    .contact-state[hidden] { display: none; }
+    .contact-state-icon {
+      width: 76px;
+      height: 76px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      margin-bottom: 20px;
+      background: var(--accent-soft);
+      color: var(--accent);
+      box-shadow: 0 0 0 10px color-mix(in srgb, var(--accent-soft) 45%, transparent);
+    }
+    .contact-state-icon svg { width: 34px; height: 34px; }
+    .contact-error-state .contact-state-icon {
+      background: rgba(248,113,113,.12);
+      color: #f87171;
+      box-shadow: 0 0 0 10px rgba(248,113,113,.05);
+    }
+    .contact-state h4 {
+      margin: 0 0 8px;
+      font-size: 1.35rem;
+      letter-spacing: -.01em;
+    }
+    .contact-state p {
+      max-width: 380px;
+      margin: 0 auto 24px;
+      color: var(--text-muted);
+      line-height: 1.65;
+    }
+    @keyframes contactStateIn {
+      from { opacity: 0; transform: translateY(8px) scale(.98); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
     .contact-hp { position: absolute; left: -10000px; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
 
     footer { padding: 34px 0; border-top: 1px solid var(--border); }
@@ -1131,7 +1172,7 @@
         <button class="contact-close" type="button" data-contact-close aria-label="Fermer">×</button>
       </div>
 
-      <form id="contactForm" class="contact-form" action="https://formsubmit.co/ajax/waelsouabni@gmail.com" method="POST">
+      <form id="contactForm" class="contact-form" action="/api/contact" method="POST">
         <div class="contact-field">
           <label for="contactName">Nom</label>
           <input id="contactName" name="name" type="text" autocomplete="name" required maxlength="100" />
@@ -1152,6 +1193,30 @@
         <div id="contactFormStatus" class="contact-form-status" role="status" aria-live="polite"></div>
         <button id="contactSubmit" class="btn btn-primary" type="submit">Envoyer le message</button>
       </form>
+
+      <div id="contactSuccessState" class="contact-state contact-success-state" role="status" aria-live="polite" hidden>
+        <div class="contact-state-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20 6 9 17l-5-5"/>
+          </svg>
+        </div>
+        <h4>Message envoyé !</h4>
+        <p>Merci pour votre message. Je vous répondrai dans les meilleurs délais.</p>
+        <button class="btn btn-primary" type="button" data-contact-success-close>Fermer</button>
+      </div>
+
+      <div id="contactErrorState" class="contact-state contact-error-state" role="alert" hidden>
+        <div class="contact-state-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="9"/>
+            <path d="M12 8v5"/>
+            <path d="M12 16h.01"/>
+          </svg>
+        </div>
+        <h4>Oups, quelque chose ne marche pas</h4>
+        <p>Merci de réessayer dans quelques instants.</p>
+        <button id="contactRetry" class="btn btn-primary" type="button">Réessayer</button>
+      </div>
     </div>
   </dialog>
 
@@ -1703,11 +1768,29 @@
       const form = document.getElementById('contactForm');
       const status = document.getElementById('contactFormStatus');
       const submit = document.getElementById('contactSubmit');
-      if (!dialog || !form || !status || !submit) return;
+      const successState = document.getElementById('contactSuccessState');
+      const errorState = document.getElementById('contactErrorState');
+      const retry = document.getElementById('contactRetry');
+      if (!dialog || !form || !status || !submit || !successState || !errorState || !retry) return;
 
       const setStatus = (message, type = '') => {
         status.textContent = message;
         status.className = `contact-form-status${type ? ' ' + type : ''}`;
+      };
+
+      const showForm = () => {
+        form.hidden = false;
+        successState.hidden = true;
+        errorState.hidden = true;
+        submit.disabled = false;
+        submit.textContent = 'Envoyer le message';
+        setStatus('');
+      };
+
+      const showState = (state) => {
+        form.hidden = true;
+        successState.hidden = state !== 'success';
+        errorState.hidden = state !== 'error';
       };
 
       const cursorDot = document.querySelector('.cursor-dot');
@@ -1726,9 +1809,7 @@
       const open = (e) => {
         e.preventDefault();
         form.reset();
-        setStatus('');
-        submit.disabled = false;
-        submit.textContent = 'Envoyer le message';
+        showForm();
 
         // A <dialog>.showModal() enters the browser top layer, so the custom
         // cursor must also be inside the dialog to stay visible above it.
@@ -1739,6 +1820,11 @@
 
       document.querySelectorAll('[data-contact-open]').forEach((el) => el.addEventListener('click', open));
       document.querySelector('[data-contact-close]')?.addEventListener('click', close);
+      document.querySelector('[data-contact-success-close]')?.addEventListener('click', close);
+      retry.addEventListener('click', () => {
+        form.reset();
+        showForm();
+      });
       dialog.addEventListener('click', (e) => { if (e.target === dialog) close(); });
       dialog.addEventListener('close', restoreCursorLayer);
 
@@ -1764,8 +1850,6 @@
             body: JSON.stringify({
               ...formData,
               _subject: `Portfolio — ${subject}`,
-              _template: 'table',
-              _captcha: 'false',
               _replyto: formData.email,
               _url: window.location.href,
             }),
@@ -1777,24 +1861,13 @@
             throw new Error(result.message || result.error || `Erreur HTTP ${response.status}`);
           }
 
-          setStatus('Message envoyé ✓ Je vous répondrai rapidement.', 'success');
           form.reset();
-          submit.textContent = 'Envoyé ✓';
-
-          setTimeout(() => {
-            close();
-            submit.disabled = false;
-            submit.textContent = 'Envoyer le message';
-            setStatus('');
-          }, 2200);
+          showState('success');
         } catch (error) {
           console.error('Contact submission failed:', error);
-          setStatus(error.message || 'Impossible d’envoyer le message. Réessayez dans quelques instants.', 'error');
-          submit.disabled = false;
-          submit.textContent = 'Réessayer';
+          showState('error');
         }
       });
-    })();
-  </script>
+    })();  </script>
 </body>
 </html>
