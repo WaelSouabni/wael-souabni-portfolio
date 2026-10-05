@@ -1839,21 +1839,30 @@
 
         try {
           const formData = Object.fromEntries(new FormData(form));
-          const subject = formData.subject?.trim() || 'Nouveau message depuis mon portfolio';
+          const controller = new AbortController();
+          const timeout = setTimeout(() => controller.abort(), 20000);
 
-          const response = await fetch(form.action, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              Accept: 'application/json',
-            },
-            body: JSON.stringify({
-              ...formData,
-              _subject: `Portfolio — ${subject}`,
-              _replyto: formData.email,
-              _url: window.location.href,
-            }),
-          });
+          let response;
+          try {
+            response = await fetch(form.action, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                Accept: 'application/json',
+              },
+              credentials: 'same-origin',
+              body: JSON.stringify({
+                name: formData.name,
+                email: formData.email,
+                subject: formData.subject,
+                message: formData.message,
+                _honey: formData._honey,
+              }),
+              signal: controller.signal,
+            });
+          } finally {
+            clearTimeout(timeout);
+          }
 
           const result = await response.json().catch(() => ({}));
 
