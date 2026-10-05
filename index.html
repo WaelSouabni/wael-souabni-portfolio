@@ -406,6 +406,18 @@
       animation: contactStateIn .35s ease both;
     }
     .contact-state[hidden] { display: none; }
+    .contact-loading-state { min-height: 260px; align-content: center; }
+    .contact-loading-spinner {
+      width: 54px;
+      height: 54px;
+      margin-bottom: 22px;
+      border: 3px solid var(--border);
+      border-top-color: var(--accent);
+      border-right-color: var(--accent-2);
+      border-radius: 50%;
+      animation: contactSpin .8s linear infinite;
+    }
+    @keyframes contactSpin { to { transform: rotate(360deg); } }
     .contact-state-icon {
       width: 76px;
       height: 76px;
@@ -1194,6 +1206,12 @@
         <button id="contactSubmit" class="btn btn-primary" type="submit">Envoyer le message</button>
       </form>
 
+      <div id="contactLoadingState" class="contact-state contact-loading-state" role="status" aria-live="polite" hidden>
+        <div class="contact-loading-spinner" aria-hidden="true"></div>
+        <h4>Envoi du message…</h4>
+        <p>Votre message est en cours d’envoi. Merci de patienter quelques instants.</p>
+      </div>
+
       <div id="contactSuccessState" class="contact-state contact-success-state" role="status" aria-live="polite" hidden>
         <div class="contact-state-icon" aria-hidden="true">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
@@ -1768,10 +1786,11 @@
       const form = document.getElementById('contactForm');
       const status = document.getElementById('contactFormStatus');
       const submit = document.getElementById('contactSubmit');
+      const loadingState = document.getElementById('contactLoadingState');
       const successState = document.getElementById('contactSuccessState');
       const errorState = document.getElementById('contactErrorState');
       const retry = document.getElementById('contactRetry');
-      if (!dialog || !form || !status || !submit || !successState || !errorState || !retry) return;
+      if (!dialog || !form || !status || !submit || !loadingState || !successState || !errorState || !retry) return;
 
       const setStatus = (message, type = '') => {
         status.textContent = message;
@@ -1780,6 +1799,7 @@
 
       const showForm = () => {
         form.hidden = false;
+        loadingState.hidden = true;
         successState.hidden = true;
         errorState.hidden = true;
         submit.disabled = false;
@@ -1789,6 +1809,7 @@
 
       const showState = (state) => {
         form.hidden = true;
+        loadingState.hidden = true;
         successState.hidden = state !== 'success';
         errorState.hidden = state !== 'error';
       };
@@ -1835,7 +1856,11 @@
 
         submit.disabled = true;
         submit.textContent = 'Envoi en cours…';
-        setStatus('Envoi du message…');
+        setStatus('');
+        form.hidden = true;
+        loadingState.hidden = false;
+        successState.hidden = true;
+        errorState.hidden = true;
 
         try {
           const formData = Object.fromEntries(new FormData(form));
