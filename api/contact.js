@@ -1,6 +1,6 @@
 const RESEND_API_URL = 'https://api.resend.com/emails';
-const RECIPIENT = 'waelsouabni@gmail.com';
-const FROM = 'Portfolio <onboarding@resend.dev>';
+const RECIPIENT = process.env.CONTACT_TO_EMAIL || 'waelsouabni@gmail.com';
+const FROM = process.env.RESEND_FROM_EMAIL || 'Portfolio <onboarding@resend.dev>';
 
 function json(res, status, body) {
   return new Response(JSON.stringify(body), {
