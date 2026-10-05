@@ -1774,7 +1774,7 @@
           const result = await response.json().catch(() => ({}));
 
           if (!response.ok || result.success !== true) {
-            throw new Error(result.message || `Erreur HTTP ${response.status}`);
+            throw new Error(result.message || result.error || `Erreur HTTP ${response.status}`);
           }
 
           setStatus('Message envoyé ✓ Je vous répondrai rapidement.', 'success');
@@ -1789,7 +1789,7 @@
           }, 2200);
         } catch (error) {
           console.error('Contact submission failed:', error);
-          setStatus('Impossible d’envoyer le message. Réessayez dans quelques instants.', 'error');
+          setStatus(error.message || 'Impossible d’envoyer le message. Réessayez dans quelques instants.', 'error');
           submit.disabled = false;
           submit.textContent = 'Réessayer';
         }
