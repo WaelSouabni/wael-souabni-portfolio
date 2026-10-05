@@ -46,7 +46,7 @@ export default async function handler(request) {
       });
     }
 
-    const emailIsValid = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(email);
+    const emailIsValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
     if (!emailIsValid) {
       return json(null, 400, {
         success: false,
