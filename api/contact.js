@@ -60,6 +60,7 @@ export default async function handler(request) {
         Authorization: `Bearer ${process.env.RESEND_API_KEY}`,
         'Content-Type': 'application/json',
       },
+      signal: AbortSignal.timeout(15000),
       body: JSON.stringify({
         from: FROM,
         to: [RECIPIENT],
@@ -92,9 +93,10 @@ export default async function handler(request) {
     });
   } catch (error) {
     console.error('Contact API error:', error);
-    return json(null, 500, {
+    const isTimeout = error?.name === 'TimeoutError' || error?.name === 'AbortError';
+    return json(null, isTimeout ? 504 : 500, {
       success: false,
-      message: 'Une erreur est survenue pendant l’envoi.',
+      message: isTimeout ? 'Le service email met trop de temps à répondre. Réessayez dans quelques instants.' : 'Une erreur est survenue pendant l’envoi.',
     });
   }
 }
