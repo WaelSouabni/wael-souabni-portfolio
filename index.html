@@ -385,6 +385,9 @@
     }
     .contact-close:hover { border-color: var(--accent); color: var(--accent); }
     .contact-form { display: grid; gap: 14px; text-align: left; }
+    .contact-form[hidden],
+    .contact-dialog-header[hidden],
+    .contact-state[hidden] { display: none !important; }
     .contact-field { display: grid; gap: 7px; }
     .contact-field label { font-size: .82rem; color: var(--text-muted); }
     .contact-field input, .contact-field textarea {
@@ -1791,38 +1794,63 @@
       const successState = document.getElementById('contactSuccessState');
       const errorState = document.getElementById('contactErrorState');
       const retry = document.getElementById('contactRetry');
-      if (!dialog || !form || !status || !submit || !loadingState || !successState || !errorState || !retry) return;
+
+      if (
+        !dialog ||
+        !dialogHeader ||
+        !form ||
+        !status ||
+        !submit ||
+        !loadingState ||
+        !successState ||
+        !errorState ||
+        !retry
+      ) return;
 
       const setStatus = (message, type = '') => {
         status.textContent = message;
-        status.className = `contact-form-status${type ? ' ' + type : ''}`;
+        status.className = `contact-form-status${type ? ` ${type}` : ''}`;
       };
 
-      const showForm = () => {
-        dialogHeader.hidden = false;
-        form.hidden = false;
-        loadingState.hidden = true;
-        successState.hidden = true;
-        errorState.hidden = true;
-        submit.disabled = false;
-        submit.textContent = 'Envoyer le message';
-        setStatus('');
-      };
+      /*
+       * Un seul état visible à la fois :
+       * form    → formulaire
+       * loading → chargement
+       * success → succès
+       * error   → erreur
+       */
+      const showContactState = (state) => {
+        const isForm = state === 'form';
+        const isLoading = state === 'loading';
+        const isSuccess = state === 'success';
+        const isError = state === 'error';
 
-      const showState = (state) => {
-        dialogHeader.hidden = true;
-        form.hidden = true;
-        loadingState.hidden = true;
-        successState.hidden = state !== 'success';
-        errorState.hidden = state !== 'error';
+        dialogHeader.hidden = !isForm;
+        form.hidden = !isForm;
+        loadingState.hidden = !isLoading;
+        successState.hidden = !isSuccess;
+        errorState.hidden = !isError;
+
+        if (isForm) {
+          submit.disabled = false;
+          submit.textContent = 'Envoyer le message';
+          setStatus('');
+        } else {
+          setStatus('');
+        }
       };
 
       const cursorDot = document.querySelector('.cursor-dot');
       const cursorRing = document.querySelector('.cursor-ring');
 
       const restoreCursorLayer = () => {
-        if (cursorDot && cursorDot.parentElement !== document.body) document.body.appendChild(cursorDot);
-        if (cursorRing && cursorRing.parentElement !== document.body) document.body.appendChild(cursorRing);
+        if (cursorDot && cursorDot.parentElement !== document.body) {
+          document.body.appendChild(cursorDot);
+        }
+
+        if (cursorRing && cursorRing.parentElement !== document.body) {
+          document.body.appendChild(cursorRing);
+        }
       };
 
       const close = () => {
@@ -1833,23 +1861,35 @@
       const open = (e) => {
         e.preventDefault();
         form.reset();
-        showForm();
+        showContactState('form');
 
-        // A <dialog>.showModal() enters the browser top layer, so the custom
-        // cursor must also be inside the dialog to stay visible above it.
         if (cursorDot) dialog.appendChild(cursorDot);
         if (cursorRing) dialog.appendChild(cursorRing);
+
         dialog.showModal();
       };
 
-      document.querySelectorAll('[data-contact-open]').forEach((el) => el.addEventListener('click', open));
-      document.querySelector('[data-contact-close]')?.addEventListener('click', close);
-      document.querySelector('[data-contact-success-close]')?.addEventListener('click', close);
+      document
+        .querySelectorAll('[data-contact-open]')
+        .forEach((el) => el.addEventListener('click', open));
+
+      document
+        .querySelector('[data-contact-close]')
+        ?.addEventListener('click', close);
+
+      document
+        .querySelector('[data-contact-success-close]')
+        ?.addEventListener('click', close);
+
       retry.addEventListener('click', () => {
         form.reset();
-        showForm();
+        showContactState('form');
       });
-      dialog.addEventListener('click', (e) => { if (e.target === dialog) close(); });
+
+      dialog.addEventListener('click', (e) => {
+        if (e.target === dialog) close();
+      });
+
       dialog.addEventListener('close', restoreCursorLayer);
 
       form.addEventListener('submit', async (e) => {
@@ -1857,14 +1897,8 @@
 
         if (!form.reportValidity()) return;
 
-        submit.disabled = true;
-        submit.textContent = 'Envoi en cours…';
-        setStatus('');
-        dialogHeader.hidden = true;
-        form.hidden = true;
-        loadingState.hidden = false;
-        successState.hidden = true;
-        errorState.hidden = true;
+        // Dès la soumission, seul l'état de chargement reste visible.
+        showContactState('loading');
 
         try {
           const formData = Object.fromEntries(new FormData(form));
@@ -1872,6 +1906,7 @@
           const timeout = setTimeout(() => controller.abort(), 20000);
 
           let response;
+
           try {
             response = await fetch(form.action, {
               method: 'POST',
@@ -1896,16 +1931,23 @@
           const result = await response.json().catch(() => ({}));
 
           if (!response.ok || result.success !== true) {
-            throw new Error(result.message || result.error || `Erreur HTTP ${response.status}`);
+            throw new Error(
+              result.message ||
+              result.error ||
+              `Erreur HTTP ${response.status}`
+            );
           }
 
           form.reset();
-          showState('success');
+          showContactState('success');
         } catch (error) {
           console.error('Contact submission failed:', error);
-          showState('error');
+          showContactState('error');
         }
       });
+
+      // État initial : seul le formulaire est visible.
+      showContactState('form');
     })();  </script>
 </body>
 </html>
