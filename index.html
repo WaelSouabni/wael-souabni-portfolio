@@ -1783,6 +1783,7 @@
     /* CONTACT: envoi via la fonction Vercel /api/contact + Resend */
     (function contactForm() {
       const dialog = document.getElementById('contactDialog');
+      const dialogHeader = dialog?.querySelector('.contact-dialog-header');
       const form = document.getElementById('contactForm');
       const status = document.getElementById('contactFormStatus');
       const submit = document.getElementById('contactSubmit');
@@ -1798,6 +1799,7 @@
       };
 
       const showForm = () => {
+        dialogHeader.hidden = false;
         form.hidden = false;
         loadingState.hidden = true;
         successState.hidden = true;
@@ -1808,6 +1810,7 @@
       };
 
       const showState = (state) => {
+        dialogHeader.hidden = true;
         form.hidden = true;
         loadingState.hidden = true;
         successState.hidden = state !== 'success';
@@ -1857,6 +1860,7 @@
         submit.disabled = true;
         submit.textContent = 'Envoi en cours…';
         setStatus('');
+        dialogHeader.hidden = true;
         form.hidden = true;
         loadingState.hidden = false;
         successState.hidden = true;
