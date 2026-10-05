@@ -72,7 +72,7 @@ export default async function handler(request) {
           `Sujet : ${subject}`,
           '',
           message,
-        ].join('\\n'),
+        ].join('\n'),
       }),
     });
 
