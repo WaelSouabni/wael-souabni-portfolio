@@ -1131,7 +1131,7 @@
         <button class="contact-close" type="button" data-contact-close aria-label="Fermer">×</button>
       </div>
 
-      <form id="contactForm" class="contact-form" action="/api/contact" method="POST">
+      <form id="contactForm" class="contact-form" action="https://formsubmit.co/ajax/waelsouabni@gmail.com" method="POST">
         <div class="contact-field">
           <label for="contactName">Nom</label>
           <input id="contactName" name="name" type="text" autocomplete="name" required maxlength="100" />
@@ -1752,15 +1752,28 @@
         setStatus('Envoi du message…');
 
         try {
+          const formData = Object.fromEntries(new FormData(form));
+          const subject = formData.subject?.trim() || 'Nouveau message depuis mon portfolio';
+
           const response = await fetch(form.action, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-            body: JSON.stringify(Object.fromEntries(new FormData(form))),
+            headers: {
+              'Content-Type': 'application/json',
+              Accept: 'application/json',
+            },
+            body: JSON.stringify({
+              ...formData,
+              _subject: `Portfolio — ${subject}`,
+              _template: 'table',
+              _captcha: 'false',
+              _replyto: formData.email,
+              _url: window.location.href,
+            }),
           });
 
           const result = await response.json().catch(() => ({}));
 
-          if (!response.ok || result.success === false) {
+          if (!response.ok || result.success !== true) {
             throw new Error(result.message || `Erreur HTTP ${response.status}`);
           }
 
