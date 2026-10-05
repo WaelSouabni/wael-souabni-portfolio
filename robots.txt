@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
+Disallow: /api/
 
 Sitemap: https://wael-souabni-portfolio.vercel.app/sitemap.xml
