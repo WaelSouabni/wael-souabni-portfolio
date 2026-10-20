@@ -520,6 +520,29 @@
       margin-bottom: 22px;
     }
     .project-meta b { color: var(--text); font-weight: 600; }
+    .project-details {
+      margin-top: 16px;
+      padding-top: 12px;
+      border-top: 1px solid var(--border);
+    }
+    .project-details summary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--accent);
+      font-size: .88rem;
+      font-weight: 600;
+      cursor: pointer;
+      list-style-position: inside;
+    }
+    .project-details summary:hover { color: var(--text); }
+    .project-details p {
+      margin-top: 10px;
+      color: var(--text-muted);
+      font-size: .9rem;
+      line-height: 1.7;
+    }
+    html[dir="rtl"] .project-meta { border-left: 0; padding-left: 0; border-right: 2px solid var(--accent-2); padding-right: 12px; }
 
     /* =========================================================
        11. RESPONSIVE
@@ -952,6 +975,10 @@
             <p class="project-meta"><b>Rôle :</b> Full Stack Developer · fonctionnalités métier, frontend, APIs et authentification.</p>
             <p class="problem"><b>Problème résolu :</b> intégrer rapidement de nouvelles marques partenaires (Carrefour, marques automobiles…) avec leur propre configuration et leur propre thème, sans dupliquer le code.</p>
             <div class="chips"><span class="chip">Next.js</span><span class="chip">NestJS</span><span class="chip">MongoDB</span><span class="chip">Keycloak</span><span class="chip">Radix UI</span></div>
+            <details class="project-details">
+              <summary>Lire l'étude de cas</summary>
+              <p><b>Approche :</b> un socle commun en monorepo, plusieurs applications Next.js selon les parcours, des APIs NestJS, MongoDB et Keycloak. L'objectif est de gérer les spécificités de chaque marque par configuration et thème, sans dupliquer l'application.</p>
+            </details>
           </article>
 
           <!-- Projet 2 -->
@@ -966,6 +993,10 @@
             <p class="project-meta"><b>Rôle :</b> Full Stack Developer · API, intégration IA et traitement documentaire.</p>
             <p class="problem"><b>Problème résolu :</b> automatiser la lecture et l'exploitation des documents clients pour accélérer le traitement des dossiers d'assurance.</p>
             <div class="chips"><span class="chip">NestJS</span><span class="chip">Azure AI Foundry</span><span class="chip">Mistral</span><span class="chip">REST</span></div>
+            <details class="project-details">
+              <summary>Lire l'étude de cas</summary>
+              <p><b>Flux fonctionnel :</b> retrouver le document dans la GED Veos selon le devis et le tenant, exposer le traitement via <code>POST /api/ocr/analyze</code>, puis intégrer Mistral Document via Azure AI Foundry. Cette présentation reste volontairement générale et ne révèle aucune donnée client.</p>
+            </details>
           </article>
 
           <!-- Projet 3 -->
