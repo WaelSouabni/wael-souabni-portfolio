@@ -2,9 +2,8 @@
   const actions = document.querySelector('.nav-actions');
   if (!actions || document.getElementById('languageSelect')) return;
 
-  const label = document.createElement('label');
+  const label = document.createElement('div');
   label.className = 'language-switch';
-  label.htmlFor = 'languageSelect';
   label.innerHTML = '<span class="sr-only">Language</span><select id="languageSelect" aria-label="Choose language" title="Choose language"><option value="fr">🇫🇷 FR</option><option value="en">🇬🇧 EN</option><option value="ar">🇹🇳 AR</option></select>';
 
   const select = label.querySelector('select');
@@ -13,9 +12,9 @@
   toggle.setAttribute('role', 'group');
   toggle.setAttribute('aria-label', 'Choose language');
   toggle.innerHTML = [
-    '<button type="button" class="language-option" data-language="fr" aria-pressed="true" aria-label="Français">🇫🇷 <span>FR</span></button>',
-    '<button type="button" class="language-option" data-language="en" aria-pressed="false" aria-label="English">🇬🇧 <span>EN</span></button>',
-    '<button type="button" class="language-option" data-language="ar" aria-pressed="false" aria-label="العربية">🇹🇳 <span>AR</span></button>'
+    '<button type="button" class="language-option" data-language="fr" aria-pressed="true" aria-label="Français"><span class="language-flag" aria-hidden="true">🇫🇷</span><span>FR</span></button>',
+    '<button type="button" class="language-option" data-language="en" aria-pressed="false" aria-label="English"><span class="language-flag" aria-hidden="true">🇬🇧</span><span>EN</span></button>',
+    '<button type="button" class="language-option" data-language="ar" aria-pressed="false" aria-label="العربية"><span class="language-flag" aria-hidden="true">🇹🇳</span><span>AR</span></button>'
   ].join('');
   select.hidden = true;
   select.tabIndex = -1;
@@ -72,7 +71,8 @@
     'html[dir="rtl"] .floating-card{left:auto;right:-36px}',
     'html[dir="rtl"] .nav-links a:after{left:auto;right:0}',
     'html[dir="rtl"] .contact-form{text-align:right}',
-    '@media(max-width:520px){.language-option{min-width:34px;min-height:30px;padding:0 5px;font-size:.7rem}.language-segmented{gap:1px;padding:2px}}',
+    '@media(max-width:520px){.language-option{min-width:30px;min-height:30px;gap:0;padding:0 4px;font-size:.7rem}.language-flag{display:none}.language-segmented{gap:1px;padding:2px}}',
+    '@media(max-width:380px){.nav-actions{gap:6px}.language-option{min-width:28px;padding:0 3px}.icon-btn{width:36px;height:36px}.logo{font-size:.9rem}}',
     '@media(prefers-reduced-motion:reduce){.language-option{transition:none}}'
   ].join('\n');
   document.head.appendChild(style);
