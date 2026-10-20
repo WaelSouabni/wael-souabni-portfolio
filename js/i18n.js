@@ -35,6 +35,11 @@
       '#projets .section-tag': '03. Projects',
       '#projets .section-title': 'Full Stack web projects and applications.',
       '#projets .section-lead': 'Professional projects demonstrating my ability to work across product, business rules, frontend, backend and integrations.',
+      '.project-details summary': ['Read the case study','Read the case study'],
+      '.project-details p': [
+        '<b>Approach:</b> a shared monorepo foundation, several Next.js applications for different user journeys, NestJS APIs, MongoDB and Keycloak. Brand-specific needs are handled through configuration and theming rather than duplicated applications.',
+        '<b>Workflow:</b> retrieve the document from the Veos document system using quote and tenant context, expose processing through <code>POST /api/ocr/analyze</code>, and integrate Mistral Document through Azure AI Foundry. This overview intentionally avoids client-sensitive details.'
+      ],
       '.project h3': ['Carene Digital','AI document analysis','Altémed intranet','Umrah management application'],
       '.project .context': ['YZY Digital · Insurance platform','Carene Digital · OCR module','YZY Digital · Company intranet','Israa Travel Agency · Web & mobile'],
       '.project > p:not(.project-meta):not(.problem)': [
@@ -111,6 +116,11 @@
       '#projets .section-tag': '03. المشاريع',
       '#projets .section-title': 'مشاريع وتطبيقات ويب متكاملة.',
       '#projets .section-lead': 'مشاريع مهنية تبرز قدرتي على العمل على المنتج وقواعد الأعمال والواجهات والخلفية والتكاملات.',
+      '.project-details summary': ['اقرأ دراسة الحالة','اقرأ دراسة الحالة'],
+      '.project-details p': [
+        '<b>النهج:</b> مستودع موحّد كأساس مشترك، وتطبيقات Next.js متعددة لمسارات المستخدمين، وواجهات NestJS، وMongoDB وKeycloak. تتم إدارة خصوصية كل علامة عبر الإعدادات والسمات بدلًا من تكرار التطبيقات.',
+        '<b>مسار العمل:</b> استرجاع المستند من نظام Veos وفق سياق عرض السعر والمستأجر، وإتاحة المعالجة عبر <code>POST /api/ocr/analyze</code>، ثم دمج Mistral Document من خلال Azure AI Foundry. يتجنب هذا العرض التفاصيل الحساسة الخاصة بالعملاء.'
+      ],
       '.project h3': ['Carene Digital','تحليل المستندات بالذكاء الاصطناعي','بوابة Altémed الداخلية','تطبيق إدارة العمرة'],
       '.project .context': ['YZY Digital · منصة تأمين','Carene Digital · وحدة OCR','YZY Digital · بوابة شركة داخلية','Israa Travel Agency · ويب وهاتف'],
       '.project > p:not(.project-meta):not(.problem)': [
