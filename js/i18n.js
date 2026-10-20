@@ -1,0 +1,223 @@
+(() => {
+  const select = document.getElementById('languageSelect');
+  if (!select) return;
+  const original = new Map();
+  const meta = {
+    title: document.title,
+    description: document.querySelector('meta[name="description"]')?.content || '',
+    ogTitle: document.querySelector('meta[property="og:title"]')?.content || '',
+    ogDescription: document.querySelector('meta[property="og:description"]')?.content || '',
+    twitterTitle: document.querySelector('meta[name="twitter:title"]')?.content || '',
+    twitterDescription: document.querySelector('meta[name="twitter:description"]')?.content || ''
+  };
+  const dict = {
+    en: {
+      title: 'Wael Souabni | Full Stack TypeScript & Next.js Developer in Tunisia',
+      description: 'Wael Souabni, Tunisia-based Full Stack developer specializing in TypeScript, Next.js, React and NestJS. Explore my web projects, experience and skills.',
+      '.nav-links a': ['About','Skills','Projects','Experience','Playground','Contact'],
+      '.hero .badge': 'Open to new opportunities',
+      '.hero h1': 'Wael <span class="gradient-text">Souabni</span> — Full Stack TypeScript Developer',
+      '.hero-role': '// TypeScript · Next.js · React · NestJS · Tunisia',
+      '.hero-tagline': 'I build <strong>modern, robust, multi-brand web platforms</strong>, from APIs to user interfaces, using Next.js, NestJS and MongoDB.',
+      '.hero-cta a': ['View my projects','Download my CV','Contact me'],
+      '#apropos .section-tag': '01. About',
+      '#apropos .section-title': 'Full Stack TypeScript & Next.js Developer in Tunisia.',
+      '#apropos .about-text p': [
+        'I am <strong>Wael Souabni</strong>, a <strong>Full Stack developer</strong> based in <strong>Djerba, Tunisia</strong>. With <strong>4 years of experience</strong>, I specialize in TypeScript / JavaScript, React, Next.js and NestJS. I turn business needs into maintainable web applications, from user interfaces to APIs. My expertise covers frontend development with React and Next.js, as well as backend development with Node.js and NestJS.',
+        'At <strong>YZY Digital</strong>, I work in particular on <strong>Carene Digital</strong>, a multi-brand, multi-tenant insurance platform built as a monorepo (Next.js, NestJS, MongoDB, Keycloak).',
+        'I work on business features, authentication, automated testing, debugging and infrastructure.'
+      ],
+      '#apropos .stats .label': ['years of experience','Stack: frontend, backend & infrastructure','Core ecosystem','Fluent French · intermediate English'],
+      '#competences .section-tag': '02. Skills',
+      '#competences .section-title': 'My toolkit.',
+      '#competences .section-lead': 'An end-to-end TypeScript stack, backed by strong testing, DevOps and security practices.',
+      '.skill-card h3': ['Frontend','Backend','Data & CMS','Authentication & security','DevOps & infrastructure','Testing & quality','Cloud & AI','Collaboration'],
+      '#projets .section-tag': '03. Projects',
+      '#projets .section-title': 'Full Stack web projects and applications.',
+      '#projets .section-lead': 'Professional projects demonstrating my ability to work across product, business rules, frontend, backend and integrations.',
+      '.project h3': ['Carene Digital','AI document analysis','Altémed intranet','Umrah management application'],
+      '.project .context': ['YZY Digital · Insurance platform','Carene Digital · OCR module','YZY Digital · Company intranet','Israa Travel Agency · Web & mobile'],
+      '.project > p:not(.project-meta):not(.problem)': [
+        'Multi-brand, multi-tenant insurance platform in a monorepo: NestJS APIs, several Next.js applications (back office, customer area, pricing journey), MongoDB and Keycloak.',
+        'Designed the <code>POST /api/ocr/analyze</code> endpoint and integrated Mistral Document through Azure AI Foundry, retrieving documents from the Veos document system by quote and tenant.',
+        'Developed and maintained an intranet based on Next.js, Strapi and MySQL, including API design and content management.',
+        'Web and mobile Umrah management application: Laravel backend, Vue.js web interfaces and a Flutter mobile app.'
+      ],
+      '.project .project-meta': [
+        '<b>Role:</b> Full Stack Developer · business features, frontend, APIs and authentication.',
+        '<b>Role:</b> Full Stack Developer · API, AI integration and document processing.',
+        '<b>Role:</b> Full Stack Developer · frontend, backend and content management.'
+      ],
+      '.project .problem': [
+        '<b>Problem solved:</b> quickly onboard partner brands with their own configuration and theme, without duplicating code.',
+        '<b>Problem solved:</b> automate reading and processing customer documents to speed up insurance case handling.',
+        '<b>Problem solved:</b> centralize internal information and let teams manage their own content through a CMS.',
+        '<b>Problem solved:</b> digitize trip organization and pilgrim tracking previously handled manually by the agency.'
+      ],
+      '#parcours .section-tag': '04. Experience',
+      '#parcours .section-title': 'Experience & education.',
+      '.tl-item h3': ['Full Stack TypeScript / JavaScript Developer','Laravel / Vue.js / Flutter Developer','Professional Master’s — ICT and Tourism Innovation','Laravel / Vue.js / Flutter Developer','Application Designer / Web Developer','Internship','Applied Bachelor’s — Multimedia and Web Development','High school diploma in Experimental Sciences'],
+      '.tl-item p': ['Carene Digital (multi-brand insurance), Altémed intranet. Business features, multi-brand theming, Keycloak/NextAuth SSO, Playwright and K6 tests, Docker and Kafka infrastructure.','Web and mobile Umrah management application.','Web and mobile task management application.','News web application built with HTML5, CSS3 and PHP.','Honors: Fairly Good.'],
+      '#playground .section-title': 'Need a short break?',
+      '#playground .section-lead': 'Six mini-games built with vanilla JavaScript, no framework, showcasing my frontend approach, interactions and browser-side logic.',
+      '.game-tab': ['🐍 Snake','🧠 Tech Memory','❌ Tic-Tac-Toe','💣 Minesweeper','🐤 Flappy Bird','⌨️ Typing'],
+      '#snakeMsg': 'Eat technologies to grow. Avoid the walls and your own tail!',
+      '#snakeStart': 'Play',
+      '.game-side p': ['Use arrow keys or W A S D to move; Space to pause.','On mobile: swipe across the board or use the directional pad.','Find all 8 pairs of technologies from my stack in as few moves as possible.','Play against a small AI and line up three symbols.','Reveal squares without hitting mines.','Fly between pipes and stay in the air as long as possible.','Type the displayed words quickly and accurately.'],
+      '.game-stats .k': ['Score','Best','Moves','Time','Pairs','Best'],
+      '#snakeRestart': 'Restart',
+      '#memRestart': 'New game',
+      '#contact .section-tag': '07. Contact',
+      '#contact .section-title': 'Let’s work together.',
+      '#contact .section-lead': 'Have a project, an opportunity or a question? Send me a message — I’ll get back to you quickly.',
+      '#contactDialogTitle': 'Send a message',
+      '.contact-dialog-header p': 'Your message will be delivered directly to my inbox.',
+      '.contact-field label': ['Name','Email','Subject','Message'],
+      '#contactSubmit': 'Send message',
+      '#contactLoadingState h4': 'Sending your message…',
+      '#contactLoadingState p': 'Your message is being sent. Please wait a moment.',
+      '#contactSuccessState h4': 'Message sent!',
+      '#contactSuccessState p': 'Thank you for your message. I’ll reply as soon as possible.',
+      '#contactSuccessState button': 'Close',
+      '#contactErrorState h4': 'Oops, something went wrong',
+      '#contactErrorState p': 'Please try again in a few moments.',
+      '#contactRetry': 'Try again',
+      'footer .footer-inner > p': '© <span id="year"></span> Wael Souabni · Djerba, Tunisia'
+    },
+    ar: {
+      title: 'وائل الصوابني | مطوّر Full Stack باستخدام TypeScript وNext.js في تونس',
+      description: 'وائل الصوابني، مطوّر Full Stack في تونس متخصص في TypeScript وNext.js وReact وNestJS. اكتشف مشاريعي وخبرتي ومهاراتي.',
+      '.nav-links a': ['نبذة عني','المهارات','المشاريع','المسار المهني','ألعاب وتجارب','اتصل بي'],
+      '.hero .badge': 'متاح لفرص مهنية جديدة',
+      '.hero h1': 'وائل <span class="gradient-text">الصوابني</span> — مطوّر Full Stack باستخدام TypeScript',
+      '.hero-role': '// TypeScript · Next.js · React · NestJS · تونس',
+      '.hero-tagline': 'أطوّر <strong>منصات ويب حديثة وقوية ومتعددة العلامات التجارية</strong>، من واجهات API إلى واجهات المستخدم، باستخدام Next.js وNestJS وMongoDB.',
+      '.hero-cta a': ['اكتشف مشاريعي','تحميل السيرة الذاتية','تواصل معي'],
+      '#apropos .section-tag': '01. نبذة عني',
+      '#apropos .section-title': 'مطوّر Full Stack باستخدام TypeScript وNext.js في تونس.',
+      '#apropos .about-text p': [
+        'أنا <strong>وائل الصوابني</strong>، <strong>مطوّر Full Stack</strong> أعمل من <strong>جربة، تونس</strong>. لدي <strong>4 سنوات من الخبرة</strong> وأتخصص في TypeScript وJavaScript وReact وNext.js وNestJS. أحوّل احتياجات الأعمال إلى تطبيقات ويب قابلة للصيانة، من الواجهات إلى واجهات API. تشمل خبرتي تطوير الواجهات باستخدام React وNext.js والخلفية باستخدام Node.js وNestJS.',
+        'في <strong>YZY Digital</strong> أعمل خصوصًا على <strong>Carene Digital</strong>، وهي منصة تأمين متعددة العلامات التجارية والمستأجرين مبنية ضمن مستودع موحّد (Next.js وNestJS وMongoDB وKeycloak).',
+        'أعمل على تطوير الوظائف المهنية والمصادقة والاختبارات الآلية وتصحيح الأخطاء والبنية التحتية.'
+      ],
+      '#apropos .stats .label': ['سنوات من الخبرة','التقنيات: الواجهة والخلفية والبنية التحتية','التقنيات الأساسية','الفرنسية بطلاقة · الإنجليزية بمستوى متوسط'],
+      '#competences .section-tag': '02. المهارات',
+      '#competences .section-title': 'أدواتي التقنية.',
+      '#competences .section-lead': 'منظومة TypeScript متكاملة، مدعومة بخبرة في الاختبارات وDevOps والأمان.',
+      '.skill-card h3': ['الواجهة الأمامية','الواجهة الخلفية','البيانات وأنظمة إدارة المحتوى','المصادقة والأمان','DevOps والبنية التحتية','الاختبارات والجودة','السحابة والذكاء الاصطناعي','التعاون'],
+      '#projets .section-tag': '03. المشاريع',
+      '#projets .section-title': 'مشاريع وتطبيقات ويب متكاملة.',
+      '#projets .section-lead': 'مشاريع مهنية تبرز قدرتي على العمل على المنتج وقواعد الأعمال والواجهات والخلفية والتكاملات.',
+      '.project h3': ['Carene Digital','تحليل المستندات بالذكاء الاصطناعي','بوابة Altémed الداخلية','تطبيق إدارة العمرة'],
+      '.project .context': ['YZY Digital · منصة تأمين','Carene Digital · وحدة OCR','YZY Digital · بوابة شركة داخلية','Israa Travel Agency · ويب وهاتف'],
+      '.project > p:not(.project-meta):not(.problem)': [
+        'منصة تأمين متعددة العلامات التجارية والمستأجرين ضمن مستودع موحّد: واجهات NestJS وتطبيقات Next.js متعددة ولوحة الإدارة ومساحة العملاء ومسار التسعير، مع MongoDB وKeycloak.',
+        'تصميم نقطة النهاية <code>POST /api/ocr/analyze</code> ودمج Mistral Document عبر Azure AI Foundry لاسترجاع المستندات من نظام Veos حسب عرض السعر والمستأجر.',
+        'تطوير وصيانة بوابة داخلية باستخدام Next.js وStrapi وMySQL، بما يشمل تصميم واجهات API وإدارة المحتوى.',
+        'تطبيق ويب وهاتف لإدارة العمرة، بخلفية Laravel وواجهات Vue.js وتطبيق هاتف باستخدام Flutter.'
+      ],
+      '.project .project-meta': ['<b>الدور:</b> مطوّر Full Stack · وظائف الأعمال والواجهة وواجهات API والمصادقة.','<b>الدور:</b> مطوّر Full Stack · واجهات API والذكاء الاصطناعي ومعالجة المستندات.','<b>الدور:</b> مطوّر Full Stack · الواجهة والخلفية وإدارة المحتوى.'],
+      '.project .problem': [
+        '<b>المشكلة التي تم حلها:</b> إضافة علامات تجارية شريكة بسرعة، لكل منها إعداداتها وتصميمها، دون تكرار الشيفرة.',
+        '<b>المشكلة التي تم حلها:</b> أتمتة قراءة مستندات العملاء ومعالجتها لتسريع ملفات التأمين.',
+        '<b>المشكلة التي تم حلها:</b> توحيد المعلومات الداخلية وتمكين الفرق من إدارة محتواها عبر نظام CMS.',
+        '<b>المشكلة التي تم حلها:</b> رقمنة تنظيم الرحلات ومتابعة المعتمرين بدلًا من الإجراءات اليدوية.'
+      ],
+      '#parcours .section-tag': '04. المسار المهني',
+      '#parcours .section-title': 'الخبرة والتعليم.',
+      '.tl-item h3': ['مطوّر Full Stack TypeScript / JavaScript','مطوّر Laravel / Vue.js / Flutter','ماجستير مهني — تكنولوجيا المعلومات والابتكار السياحي','مطوّر Laravel / Vue.js / Flutter','مصمم تطبيقات / مطوّر ويب','تدريب مهني','إجازة تطبيقية — الوسائط المتعددة وتطوير الويب','بكالوريا في العلوم التجريبية'],
+      '.tl-item p': ['Carene Digital للتأمين متعدد العلامات التجارية وبوابة Altémed الداخلية. وظائف أعمال، وتصميم متعدد العلامات، وSSO عبر Keycloak/NextAuth، واختبارات Playwright وK6، وبنية Docker وKafka.','تطبيق ويب وهاتف لإدارة العمرة.','تطبيق ويب وهاتف لإدارة المهام.','تطبيق أخبار باستخدام HTML5 وCSS3 وPHP.','ملاحظة: حسن.'],
+      '#playground .section-title': 'هل تحتاج إلى استراحة قصيرة؟',
+      '#playground .section-lead': 'ست ألعاب صغيرة بـJavaScript دون إطار عمل، تعرض أسلوبي في الواجهة والتفاعلات والمنطق داخل المتصفح.',
+      '.game-tab': ['🐍 Snake','🧠 ذاكرة التقنيات','❌ إكس-أو','💣 كاسح الألغام','🐤 Flappy Bird','⌨️ سرعة الكتابة'],
+      '#snakeMsg': 'اجمع التقنيات لتكبر، وتجنّب الجدران وذيلك!',
+      '#snakeStart': 'ابدأ اللعب',
+      '.game-side p': ['استخدم الأسهم أو W A S D للتحرك، والمسافة للإيقاف المؤقت.','على الهاتف: اسحب إصبعك على اللوحة أو استخدم أزرار الاتجاهات.','اعثر على الأزواج الثمانية من التقنيات بأقل عدد من الحركات.','واجه ذكاءً اصطناعيًا بسيطًا واصطف بثلاثة رموز.','اكشف المربعات دون لمس الألغام.','مرّ بين الأنابيب وحافظ على الطيران لأطول وقت.','اكتب الكلمات المعروضة بسرعة ودقة.'],
+      '.game-stats .k': ['النقاط','أفضل نتيجة','الحركات','الوقت','الأزواج','أفضل نتيجة'],
+      '#snakeRestart': 'إعادة اللعب',
+      '#memRestart': 'لعبة جديدة',
+      '#contact .section-tag': '07. اتصل بي',
+      '#contact .section-title': 'لنعمل معًا.',
+      '#contact .section-lead': 'هل لديك مشروع أو فرصة أو سؤال؟ أرسل لي رسالة وسأجيبك سريعًا.',
+      '#contactDialogTitle': 'إرسال رسالة',
+      '.contact-dialog-header p': 'ستصل رسالتك مباشرة إلى بريدي الإلكتروني.',
+      '.contact-field label': ['الاسم','البريد الإلكتروني','الموضوع','الرسالة'],
+      '#contactSubmit': 'إرسال الرسالة',
+      '#contactLoadingState h4': 'جارٍ إرسال الرسالة…',
+      '#contactLoadingState p': 'يتم إرسال رسالتك الآن. يرجى الانتظار قليلًا.',
+      '#contactSuccessState h4': 'تم إرسال الرسالة!',
+      '#contactSuccessState p': 'شكرًا على رسالتك. سأرد عليك في أقرب وقت.',
+      '#contactSuccessState button': 'إغلاق',
+      '#contactErrorState h4': 'عذرًا، حدث خطأ',
+      '#contactErrorState p': 'يرجى المحاولة مجددًا بعد قليل.',
+      '#contactRetry': 'إعادة المحاولة',
+      'footer .footer-inner > p': '© <span id="year"></span> وائل الصوابني · جربة، تونس'
+    }
+  };
+
+  function restore() {
+    original.forEach((html, el) => { el.innerHTML = html; });
+    original.clear();
+  }
+  function set(selector, value) {
+    const nodes = Array.from(document.querySelectorAll(selector));
+    const values = Array.isArray(value) ? value : nodes.map(() => value);
+    nodes.forEach((el, i) => {
+      if (values[i] === undefined) return;
+      if (!original.has(el)) original.set(el, el.innerHTML);
+      const v = values[i];
+      if (selector === '.nav-links a' || selector === '.skill-card h3' || selector === '.project h3' ||
+          selector === '.project .context' || selector === '.tl-item h3' || selector === '.game-tab' ||
+          selector === '.game-stats .k' || selector === '.contact-field label' ||
+          selector === '#apropos .stats .label' || selector === '#snakeStart' ||
+          selector === '#snakeRestart' || selector === '#memRestart' || selector === '#contactSubmit' ||
+          selector === '#contactRetry' || selector === '#contactSuccessState button') {
+        el.textContent = v;
+      } else if (selector === '.hero-cta a') {
+        const node = Array.from(el.childNodes).find(n => n.nodeType === Node.TEXT_NODE && n.textContent.trim());
+        if (node) node.textContent = '\n              ' + v + '\n              ';
+      } else if (selector === '.hero .badge') {
+        const node = Array.from(el.childNodes).find(n => n.nodeType === Node.TEXT_NODE && n.textContent.trim());
+        if (node) node.textContent = ' ' + v;
+      } else {
+        el.innerHTML = v;
+      }
+    });
+  }
+  function apply(lang) {
+    restore();
+    if (lang === 'fr') {
+      document.title = meta.title;
+      document.querySelector('meta[name="description"]')?.setAttribute('content', meta.description);
+      document.querySelector('meta[property="og:title"]')?.setAttribute('content', meta.ogTitle);
+      document.querySelector('meta[property="og:description"]')?.setAttribute('content', meta.ogDescription);
+      document.querySelector('meta[name="twitter:title"]')?.setAttribute('content', meta.twitterTitle);
+      document.querySelector('meta[name="twitter:description"]')?.setAttribute('content', meta.twitterDescription);
+      document.querySelector('meta[property="og:locale"]')?.setAttribute('content', 'fr_FR');
+      document.documentElement.lang = 'fr';
+      document.documentElement.dir = 'ltr';
+    } else {
+      const language = dict[lang];
+      document.title = language.title;
+      document.querySelector('meta[name="description"]')?.setAttribute('content', language.description);
+      document.querySelector('meta[property="og:title"]')?.setAttribute('content', language.title);
+      document.querySelector('meta[property="og:description"]')?.setAttribute('content', language.description);
+      document.querySelector('meta[name="twitter:title"]')?.setAttribute('content', language.title);
+      document.querySelector('meta[name="twitter:description"]')?.setAttribute('content', language.description);
+      document.querySelector('meta[property="og:locale"]')?.setAttribute('content', lang === 'ar' ? 'ar_TN' : 'en_US');
+      Object.entries(language).forEach(([selector, value]) => {
+        if (selector === 'title' || selector === 'description') return;
+        set(selector, value);
+      });
+      document.documentElement.lang = lang;
+      document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+    }
+    try { localStorage.setItem('portfolio-language', lang); } catch (_) {}
+  }
+  select.addEventListener('change', () => apply(select.value));
+  let saved = 'fr';
+  try { saved = localStorage.getItem('portfolio-language') || 'fr'; } catch (_) {}
+  if (!['fr','en','ar'].includes(saved)) saved = 'fr';
+  select.value = saved;
+  apply(saved);
+})();
