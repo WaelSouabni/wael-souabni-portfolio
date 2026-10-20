@@ -57,6 +57,8 @@
       '#parcours .section-tag': '04. Experience',
       '#parcours .section-title': 'Experience & education.',
       '.tl-item h3': ['Full Stack TypeScript / JavaScript Developer','Laravel / Vue.js / Flutter Developer','Professional Master’s — ICT and Tourism Innovation','Laravel / Vue.js / Flutter Developer','Application Designer / Web Developer','Internship','Applied Bachelor’s — Multimedia and Web Development','High school diploma in Experimental Sciences'],
+      '.tl-item .org': ['YZY Digital · Djerba','Israa Travel Agency · Djerba','ISET Djerba','Électronique du Sud · Djerba','Be-Soft · El May, Djerba','Tunisie Telecom · Houmt Souk, Djerba','ISET Djerba','Lycée El Mey · Djerba'],
+      '.tl-date': ['Aug 2022 — Present','Feb 2022 — Jun 2022','Sep 2020 — Jun 2022','Feb 2020 — May 2020','Jan 2019 — Feb 2019','Jan 2018 — Feb 2018','Sep 2017 — Jun 2020','Jun 2017'],
       '.tl-item p': ['Carene Digital (multi-brand insurance), Altémed intranet. Business features, multi-brand theming, Keycloak/NextAuth SSO, Playwright and K6 tests, Docker and Kafka infrastructure.','Web and mobile Umrah management application.','Web and mobile task management application.','News web application built with HTML5, CSS3 and PHP.','Honors: Fairly Good.'],
       '#playground .section-title': 'Need a short break?',
       '#playground .section-lead': 'Six mini-games built with vanilla JavaScript, no framework, showcasing my frontend approach, interactions and browser-side logic.',
@@ -126,6 +128,8 @@
       '#parcours .section-tag': '04. المسار المهني',
       '#parcours .section-title': 'الخبرة والتعليم.',
       '.tl-item h3': ['مطوّر Full Stack TypeScript / JavaScript','مطوّر Laravel / Vue.js / Flutter','ماجستير مهني — تكنولوجيا المعلومات والابتكار السياحي','مطوّر Laravel / Vue.js / Flutter','مصمم تطبيقات / مطوّر ويب','تدريب مهني','إجازة تطبيقية — الوسائط المتعددة وتطوير الويب','بكالوريا في العلوم التجريبية'],
+      '.tl-item .org': ['YZY Digital · جربة','Israa Travel Agency · جربة','ISET جربة','Électronique du Sud · جربة','Be-Soft · الماي، جربة','Tunisie Telecom · حومة السوق، جربة','ISET جربة','معهد الماي · جربة'],
+      '.tl-date': ['أوت 2022 — إلى اليوم','فيفري 2022 — جوان 2022','سبتمبر 2020 — جوان 2022','فيفري 2020 — ماي 2020','جانفي 2019 — فيفري 2019','جانفي 2018 — فيفري 2018','سبتمبر 2017 — جوان 2020','جوان 2017'],
       '.tl-item p': ['Carene Digital للتأمين متعدد العلامات التجارية وبوابة Altémed الداخلية. وظائف أعمال، وتصميم متعدد العلامات، وSSO عبر Keycloak/NextAuth، واختبارات Playwright وK6، وبنية Docker وKafka.','تطبيق ويب وهاتف لإدارة العمرة.','تطبيق ويب وهاتف لإدارة المهام.','تطبيق أخبار باستخدام HTML5 وCSS3 وPHP.','ملاحظة: حسن.'],
       '#playground .section-title': 'هل تحتاج إلى استراحة قصيرة؟',
       '#playground .section-lead': 'ست ألعاب صغيرة بـJavaScript دون إطار عمل، تعرض أسلوبي في الواجهة والتفاعلات والمنطق داخل المتصفح.',
@@ -209,6 +213,8 @@
         if (selector === 'title' || selector === 'description') return;
         set(selector, value);
       });
+      const year = document.getElementById('year');
+      if (year) year.textContent = new Date().getFullYear();
       document.documentElement.lang = lang;
       document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
     }
