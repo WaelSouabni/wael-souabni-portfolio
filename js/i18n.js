@@ -36,6 +36,7 @@
       '#projets .section-title': 'Full Stack web projects and applications.',
       '#projets .section-lead': 'Professional projects demonstrating my ability to work across product, business rules, frontend, backend and integrations.',
       '.project-details summary': ['Read the case study','Read the case study'],
+      '.case-study-link': ['Read full case study →','Read full case study →','Read full case study →','Read full case study →'],
       '.project-details p': [
         '<b>Approach:</b> a shared monorepo foundation, several Next.js applications for different user journeys, NestJS APIs, MongoDB and Keycloak. Brand-specific needs are handled through configuration and theming rather than duplicated applications.',
         '<b>Workflow:</b> retrieve the document from the Veos document system using quote and tenant context, expose processing through <code>POST /api/ocr/analyze</code>, and integrate Mistral Document through Azure AI Foundry. This overview intentionally avoids client-sensitive details.'
@@ -117,6 +118,7 @@
       '#projets .section-title': 'مشاريع وتطبيقات ويب متكاملة.',
       '#projets .section-lead': 'مشاريع مهنية تبرز قدرتي على العمل على المنتج وقواعد الأعمال والواجهات والخلفية والتكاملات.',
       '.project-details summary': ['اقرأ دراسة الحالة','اقرأ دراسة الحالة'],
+      '.case-study-link': ['اقرأ دراسة الحالة كاملة ←','اقرأ دراسة الحالة كاملة ←','اقرأ دراسة الحالة كاملة ←','اقرأ دراسة الحالة كاملة ←'],
       '.project-details p': [
         '<b>النهج:</b> مستودع موحّد كأساس مشترك، وتطبيقات Next.js متعددة لمسارات المستخدمين، وواجهات NestJS، وMongoDB وKeycloak. تتم إدارة خصوصية كل علامة عبر الإعدادات والسمات بدلًا من تكرار التطبيقات.',
         '<b>مسار العمل:</b> استرجاع المستند من نظام Veos وفق سياق عرض السعر والمستأجر، وإتاحة المعالجة عبر <code>POST /api/ocr/analyze</code>، ثم دمج Mistral Document من خلال Azure AI Foundry. يتجنب هذا العرض التفاصيل الحساسة الخاصة بالعملاء.'
@@ -183,7 +185,7 @@
       if (!original.has(el)) original.set(el, el.innerHTML);
       const v = values[i];
       if (selector === '.nav-links a' || selector === '.skill-card h3' || selector === '.project h3' ||
-          selector === '.project .context' || selector === '.tl-item h3' || selector === '.game-tab' ||
+          selector === '.project .context' || selector === '.case-study-link' || selector === '.tl-item h3' || selector === '.game-tab' ||
           selector === '.game-stats .k' || selector === '.contact-field label' ||
           selector === '#apropos .stats .label' || selector === '#snakeStart' ||
           selector === '#snakeRestart' || selector === '#memRestart' || selector === '#contactSubmit' ||
