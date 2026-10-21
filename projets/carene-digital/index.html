@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Carene Digital : plateforme d’assurance multi-marques | Wael Souabni</title>
+  <meta name="description" content="Étude de cas de Wael Souabni : plateforme d’assurance multi-marques et multi-tenant avec Next.js, NestJS, MongoDB et Keycloak.">
+  <meta name="author" content="Wael Souabni">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://wael-souabni-portfolio.vercel.app/projets/carene-digital/">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://wael-souabni-portfolio.vercel.app/projets/carene-digital/">
+  <meta property="og:title" content="Carene Digital : plateforme d’assurance multi-marques | Wael Souabni">
+  <meta property="og:description" content="Étude de cas de Wael Souabni : plateforme d’assurance multi-marques et multi-tenant avec Next.js, NestJS, MongoDB et Keycloak.">
+  <meta property="og:site_name" content="Wael Souabni — Portfolio">
+  <meta property="og:locale" content="fr_FR">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Carene Digital : plateforme d’assurance multi-marques | Wael Souabni">
+  <meta name="twitter:description" content="Étude de cas de Wael Souabni : plateforme d’assurance multi-marques et multi-tenant avec Next.js, NestJS, MongoDB et Keycloak.">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <style>
+    :root{color-scheme:dark;--bg:#0b0d12;--surface:#161a23;--border:#242a36;--text:#e8ebf1;--muted:#a4adbb;--accent:#5eead4;--accent2:#818cf8}
+    *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:16px/1.75 Inter,system-ui,-apple-system,"Segoe UI",sans-serif}
+    a{color:var(--accent);text-underline-offset:4px}a:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
+    .wrap{width:min(100% - 32px,820px);margin:auto}.top{padding:24px 0;border-bottom:1px solid var(--border)}.top a{color:var(--text);text-decoration:none;font-weight:700}
+    main{padding:56px 0 72px}nav.breadcrumb{font-size:.9rem;color:var(--muted);margin-bottom:30px}nav.breadcrumb a{color:var(--muted)}
+    .eyebrow{color:var(--accent);font-size:.82rem;letter-spacing:.08em;text-transform:uppercase}
+    h1{font-size:clamp(2.2rem,6vw,3.6rem);line-height:1.12;letter-spacing:-.035em;margin:12px 0 20px}
+    .lead{font-size:1.2rem;color:var(--muted);max-width:740px}.panel{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:24px;margin:28px 0}
+    h2{font-size:1.45rem;line-height:1.3;margin:38px 0 12px}p,li{color:#c6ccd6}ul{padding-left:24px}.chips{display:flex;flex-wrap:wrap;gap:8px;padding:0;list-style:none}
+    .chips li{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:4px 11px;font-size:.86rem}
+    .links{display:flex;gap:18px;flex-wrap:wrap;margin-top:32px}.links a{display:inline-block;padding:11px 16px;border:1px solid var(--border);border-radius:999px;text-decoration:none}
+    footer{border-top:1px solid var(--border);padding:24px 0;color:var(--muted);font-size:.9rem}
+  </style>
+  <script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "CreativeWork",
+  "name": "Carene Digital — plateforme d’assurance multi-marques",
+  "description": "Étude de cas de Wael Souabni : plateforme d’assurance multi-marques et multi-tenant avec Next.js, NestJS, MongoDB et Keycloak.",
+  "url": "https://wael-souabni-portfolio.vercel.app/projets/carene-digital/",
+  "inLanguage": "fr-TN",
+  "creator": {
+    "@type": "Person",
+    "name": "Wael Souabni",
+    "url": "https://wael-souabni-portfolio.vercel.app/"
+  },
+  "keywords": [
+    "plateforme assurance multi-marques",
+    "multi-tenant",
+    "Next.js",
+    "NestJS",
+    "MongoDB",
+    "Keycloak",
+    "TypeScript"
+  ]
+}</script>
+</head>
+<body>
+<header class="top"><div class="wrap"><a href="/">Wael Souabni <span style="color:var(--accent)">/ Portfolio</span></a></div></header>
+<main class="wrap">
+  <nav class="breadcrumb" aria-label="Fil d’Ariane"><a href="/">Accueil</a> / <a href="/#projets">Projets</a> / Carene Digital — plateforme d’assurance multi-marques</nav>
+  <article>
+    <p class="eyebrow">Étude de cas · Développement Full Stack</p>
+    <h1>Carene Digital — plateforme d’assurance multi-marques</h1>
+    <p class="lead">Concevoir une base technique commune pour plusieurs marques et parcours d’assurance, sans dupliquer les applications.</p>
+    <div class="panel"><h2>Contexte du projet</h2><p>Chez YZY Digital, je contribue à Carene Digital, une plateforme d’assurance organisée autour de plusieurs marques et tenants. Le produit rassemble plusieurs parcours, dont le back-office, l’espace client et le tunnel de tarification. Le défi technique consiste à garder une base cohérente tout en permettant à chaque marque de conserver ses paramètres et son identité visuelle.</p></div>
+    <h2>Le défi</h2><p>Une plateforme multi-marques peut rapidement devenir difficile à maintenir si chaque variante entraîne une copie de l’application. Les règles métier, les parcours et les correctifs risquent alors de diverger.</p>
+    <h2>Approche technique</h2><p>L’approche présentée ici repose sur un monorepo et un socle partagé : plusieurs applications Next.js pour les parcours utilisateurs, des API NestJS, MongoDB pour les données et Keycloak pour l’authentification. La configuration et le theming permettent de traiter les différences entre marques sans répliquer inutilement le code.</p>
+    <h2>Ma contribution</h2><ul><li>Développement et évolution de fonctionnalités métier.</li>
+<li>Implémentation d’interfaces et de parcours avec Next.js.</li>
+<li>Conception et intégration d’API NestJS.</li>
+<li>Travail sur l’authentification et l’intégration avec Keycloak.</li>
+<li>Maintenance et amélioration continue du socle commun.</li></ul>
+    <h2>Technologies</h2><ul class="chips"><li>TypeScript</li>
+<li>Next.js</li>
+<li>NestJS</li>
+<li>MongoDB</li>
+<li>Keycloak</li>
+<li>Radix UI</li></ul>
+    <h2>Objectif et bilan</h2><p>Cette architecture vise à faciliter l’ajout de nouvelles marques et à rendre les évolutions plus cohérentes d’un parcours à l’autre. Je ne publie pas de métriques internes ni de données client ; cette étude de cas décrit uniquement les choix techniques à un niveau général.</p>
+    <div class="links"><a href="../analyse-documentaire-ia/">Voir aussi : analyse documentaire par IA →</a><a href="/#contact">Me contacter →</a><a href="/">Retour au portfolio</a></div>
+  </article>
+</main>
+<footer><div class="wrap">© 2026 Wael Souabni · Djerba, Tunisie · <a href="https://www.linkedin.com/in/wael-souabni-1601a7171" rel="me">LinkedIn</a> · <a href="https://github.com/WaelSouabni" rel="me">GitHub</a></div></footer>
+</body>
+</html>
