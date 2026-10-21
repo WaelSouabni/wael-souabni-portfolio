@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Analyse documentaire par IA avec Azure AI et Mistral | Wael Souabni</title>
+  <meta name="description" content="Étude de cas technique sur l’intégration de Mistral Document via Azure AI Foundry dans un flux d’analyse documentaire pour l’assurance.">
+  <meta name="author" content="Wael Souabni">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://wael-souabni-portfolio.vercel.app/projets/analyse-documentaire-ia/">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://wael-souabni-portfolio.vercel.app/projets/analyse-documentaire-ia/">
+  <meta property="og:title" content="Analyse documentaire par IA avec Azure AI et Mistral | Wael Souabni">
+  <meta property="og:description" content="Étude de cas technique sur l’intégration de Mistral Document via Azure AI Foundry dans un flux d’analyse documentaire pour l’assurance.">
+  <meta property="og:site_name" content="Wael Souabni — Portfolio">
+  <meta property="og:locale" content="fr_FR">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Analyse documentaire par IA avec Azure AI et Mistral | Wael Souabni">
+  <meta name="twitter:description" content="Étude de cas technique sur l’intégration de Mistral Document via Azure AI Foundry dans un flux d’analyse documentaire pour l’assurance.">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <style>
+    :root{color-scheme:dark;--bg:#0b0d12;--surface:#161a23;--border:#242a36;--text:#e8ebf1;--muted:#a4adbb;--accent:#5eead4;--accent2:#818cf8}
+    *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:16px/1.75 Inter,system-ui,-apple-system,"Segoe UI",sans-serif}
+    a{color:var(--accent);text-underline-offset:4px}a:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
+    .wrap{width:min(100% - 32px,820px);margin:auto}.top{padding:24px 0;border-bottom:1px solid var(--border)}.top a{color:var(--text);text-decoration:none;font-weight:700}
+    main{padding:56px 0 72px}nav.breadcrumb{font-size:.9rem;color:var(--muted);margin-bottom:30px}nav.breadcrumb a{color:var(--muted)}
+    .eyebrow{color:var(--accent);font-size:.82rem;letter-spacing:.08em;text-transform:uppercase}
+    h1{font-size:clamp(2.2rem,6vw,3.6rem);line-height:1.12;letter-spacing:-.035em;margin:12px 0 20px}
+    .lead{font-size:1.2rem;color:var(--muted);max-width:740px}.panel{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:24px;margin:28px 0}
+    h2{font-size:1.45rem;line-height:1.3;margin:38px 0 12px}p,li{color:#c6ccd6}ul{padding-left:24px}.chips{display:flex;flex-wrap:wrap;gap:8px;padding:0;list-style:none}
+    .chips li{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:4px 11px;font-size:.86rem}
+    .links{display:flex;gap:18px;flex-wrap:wrap;margin-top:32px}.links a{display:inline-block;padding:11px 16px;border:1px solid var(--border);border-radius:999px;text-decoration:none}
+    footer{border-top:1px solid var(--border);padding:24px 0;color:var(--muted);font-size:.9rem}
+  </style>
+  <script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "CreativeWork",
+  "name": "Analyse de documents par IA",
+  "description": "Étude de cas technique sur l’intégration de Mistral Document via Azure AI Foundry dans un flux d’analyse documentaire pour l’assurance.",
+  "url": "https://wael-souabni-portfolio.vercel.app/projets/analyse-documentaire-ia/",
+  "inLanguage": "fr-TN",
+  "creator": {
+    "@type": "Person",
+    "name": "Wael Souabni",
+    "url": "https://wael-souabni-portfolio.vercel.app/"
+  },
+  "keywords": [
+    "analyse documentaire IA",
+    "OCR",
+    "Mistral Document",
+    "Azure AI Foundry",
+    "NestJS",
+    "API REST",
+    "assurance"
+  ]
+}</script>
+</head>
+<body>
+<header class="top"><div class="wrap"><a href="/">Wael Souabni <span style="color:var(--accent)">/ Portfolio</span></a></div></header>
+<main class="wrap">
+  <nav class="breadcrumb" aria-label="Fil d’Ariane"><a href="/">Accueil</a> / <a href="/#projets">Projets</a> / Analyse de documents par IA</nav>
+  <article>
+    <p class="eyebrow">Étude de cas · Développement Full Stack</p>
+    <h1>Analyse de documents par IA</h1>
+    <p class="lead">Relier une GED à un service d’analyse documentaire par IA dans un flux métier d’assurance.</p>
+    <div class="panel"><h2>Contexte du projet</h2><p>Dans le contexte de Carene Digital, j’ai travaillé sur l’intégration d’un flux d’analyse documentaire destiné à automatiser une partie de la lecture des documents utilisés dans les dossiers d’assurance. Le travail relie la récupération du document, une API applicative et un service de traitement documentaire.</p></div>
+    <h2>Le défi</h2><p>L’analyse ne commence pas par un fichier arbitraire : il faut retrouver le bon document dans la GED en tenant compte du devis et du tenant courant, puis exposer le traitement à travers une interface API intégrable au produit.</p>
+    <h2>Approche technique</h2><p>Le flux s’appuie sur l’endpoint `POST /api/ocr/analyze`. L’application retrouve le document dans la GED Veos selon le contexte du devis et du tenant, puis intègre Mistral Document via Azure AI Foundry. L’API sert de point d’entrée au traitement depuis le reste de l’application.</p>
+    <h2>Ma contribution</h2><ul><li>Conception et intégration de l’endpoint `POST /api/ocr/analyze`.</li>
+<li>Connexion au flux de récupération documentaire de la GED Veos.</li>
+<li>Intégration de Mistral Document via Azure AI Foundry.</li>
+<li>Prise en compte du contexte devis/tenant dans le flux applicatif.</li>
+<li>Documentation du fonctionnement à un niveau compatible avec la confidentialité du projet.</li></ul>
+    <h2>Technologies</h2><ul class="chips"><li>TypeScript</li>
+<li>NestJS</li>
+<li>REST API</li>
+<li>Mistral Document</li>
+<li>Azure AI Foundry</li>
+<li>GED Veos</li></ul>
+    <h2>Objectif et bilan</h2><p>L’objectif fonctionnel est de réduire les manipulations manuelles liées à la lecture des documents. Aucun chiffre de précision, de gain de temps ou de volume n’est publié ici, car je ne dispose pas de métriques publiques vérifiables.</p>
+    <div class="links"><a href="../carene-digital/">Voir aussi : plateforme Carene Digital →</a><a href="/#contact">Me contacter →</a><a href="/">Retour au portfolio</a></div>
+  </article>
+</main>
+<footer><div class="wrap">© 2026 Wael Souabni · Djerba, Tunisie · <a href="https://www.linkedin.com/in/wael-souabni-1601a7171" rel="me">LinkedIn</a> · <a href="https://github.com/WaelSouabni" rel="me">GitHub</a></div></footer>
+</body>
+</html>
