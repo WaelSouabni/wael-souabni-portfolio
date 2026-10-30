@@ -36,7 +36,7 @@
       '#projets .section-title': 'Full Stack web projects and applications.',
       '#projets .section-lead': 'Professional and personal projects showcasing my ability to build web products from frontend to backend and solve concrete needs.',
       '.project-details summary': ['Read the case study','Read the case study'],
-      '.case-study-link': ['Read full case study →','Read full case study →','Read full case study →','Read full case study →','View GitHub repository →','View GitHub repository →','Try the demo →','View demo →','View source on GitHub →','View demo →'],
+      '.case-study-link': ['Read full case study →','Read full case study →','Read full case study →','Read full case study →','View GitHub repository →','Try the demo →','View GitHub repository →','Try the demo →','View demo →','View source on GitHub →','View demo →'],
       '.project-details p': [
         '<b>Approach:</b> a shared monorepo foundation, several Next.js applications for different user journeys, NestJS APIs, MongoDB and Keycloak. Brand-specific needs are handled through configuration and theming rather than duplicated applications.',
         '<b>Workflow:</b> retrieve the document from the Veos document system using quote and tenant context, expose processing through <code>POST /api/ocr/analyze</code>, and integrate Mistral Document through Azure AI Foundry. This overview intentionally avoids client-sensitive details.'
@@ -130,7 +130,7 @@
       '#projets .section-title': 'مشاريع وتطبيقات ويب متكاملة.',
       '#projets .section-lead': 'مشاريع مهنية وشخصية تبرز قدرتي على بناء منتجات ويب متكاملة من الواجهة إلى الخلفية وحل احتياجات واقعية.',
       '.project-details summary': ['اقرأ دراسة الحالة','اقرأ دراسة الحالة'],
-      '.case-study-link': ['اقرأ دراسة الحالة كاملة ←','اقرأ دراسة الحالة كاملة ←','اقرأ دراسة الحالة كاملة ←','اقرأ دراسة الحالة كاملة ←','عرض مستودع GitHub ←','عرض مستودع GitHub ←','جرّب النسخة التجريبية ←','عرض النسخة التجريبية ←','عرض المصدر على GitHub ←','عرض النسخة التجريبية ←'],
+      '.case-study-link': ['اقرأ دراسة الحالة كاملة ←','اقرأ دراسة الحالة كاملة ←','اقرأ دراسة الحالة كاملة ←','اقرأ دراسة الحالة كاملة ←','عرض مستودع GitHub ←','جرّب النسخة التجريبية ←','عرض مستودع GitHub ←','جرّب النسخة التجريبية ←','عرض النسخة التجريبية ←','عرض المصدر على GitHub ←','عرض النسخة التجريبية ←'],
       '.project-details p': [
         '<b>النهج:</b> مستودع موحّد كأساس مشترك، وتطبيقات Next.js متعددة لمسارات المستخدمين، وواجهات NestJS، وMongoDB وKeycloak. تتم إدارة خصوصية كل علامة عبر الإعدادات والسمات بدلًا من تكرار التطبيقات.',
         '<b>مسار العمل:</b> استرجاع المستند من نظام Veos وفق سياق عرض السعر والمستأجر، وإتاحة المعالجة عبر <code>POST /api/ocr/analyze</code>، ثم دمج Mistral Document من خلال Azure AI Foundry. يتجنب هذا العرض التفاصيل الحساسة الخاصة بالعملاء.'
