@@ -34,34 +34,37 @@
       '.skill-card h3': ['Frontend','Backend','Data & CMS','Authentication & security','DevOps & infrastructure','Testing & quality','Cloud & AI','Collaboration'],
       '#projets .section-tag': '03. Projects',
       '#projets .section-title': 'Full Stack web projects and applications.',
-      '#projets .section-lead': 'Professional projects demonstrating my ability to work across product, business rules, frontend, backend and integrations.',
+      '#projets .section-lead': 'Professional and personal projects showcasing my ability to build web products from frontend to backend and solve concrete needs.',
       '.project-details summary': ['Read the case study','Read the case study'],
-      '.case-study-link': ['Read full case study →','Read full case study →','Read full case study →','Read full case study →','View GitHub repository →'],
+      '.case-study-link': ['Read full case study →','Read full case study →','Read full case study →','Read full case study →','View GitHub repository →','View GitHub repository →','Try the demo →'],
       '.project-details p': [
         '<b>Approach:</b> a shared monorepo foundation, several Next.js applications for different user journeys, NestJS APIs, MongoDB and Keycloak. Brand-specific needs are handled through configuration and theming rather than duplicated applications.',
         '<b>Workflow:</b> retrieve the document from the Veos document system using quote and tenant context, expose processing through <code>POST /api/ocr/analyze</code>, and integrate Mistral Document through Azure AI Foundry. This overview intentionally avoids client-sensitive details.'
       ],
-      '.project h3': ['Carene Digital','AI document analysis','Altémed intranet','Umrah management application','StockFlow'],
-      '.project .context': ['YZY Digital · Insurance platform','Carene Digital · OCR module','YZY Digital · Company intranet','Israa Travel Agency · Web & mobile','Personal project · Management SaaS'],
+      '.project h3': ['Carene Digital','AI document analysis','Altémed intranet','Umrah management application','StockFlow','FunisLearn'],
+      '.project .context': ['YZY Digital · Insurance platform','Carene Digital · OCR module','YZY Digital · Company intranet','Israa Travel Agency · Web & mobile','Personal project · Inventory & invoicing SaaS','Personal project · Educational games platform'],
       '.project > p:not(.project-meta):not(.problem)': [
         'Multi-brand, multi-tenant insurance platform in a monorepo: NestJS APIs, several Next.js applications (back office, customer area, pricing journey), MongoDB and Keycloak.',
         'Designed the <code>POST /api/ocr/analyze</code> endpoint and integrated Mistral Document through Azure AI Foundry, retrieving documents from the Veos document system by quote and tenant.',
         'Developed and maintained an intranet based on Next.js, Strapi and MySQL, including API design and content management.',
         'Web and mobile Umrah management application: Laravel backend, Vue.js web interfaces and a Flutter mobile app.',
-        'Stock and invoicing management SaaS with dashboards, customers, quotes, invoices and role management, documented with Next.js, TypeScript, Prisma and PostgreSQL.'
+        'Stock and invoicing management SaaS with dashboards, customers, quotes, invoices and role management, documented with Next.js, TypeScript, Prisma and PostgreSQL.',
+        'Interactive educational games platform for children, with playful activities and an interface designed for young users. The project focuses on Arabic content and learning through play.'
       ],
       '.project .project-meta': [
         '<b>Role:</b> Full Stack Developer · business features, frontend, APIs and authentication.',
         '<b>Role:</b> Full Stack Developer · API, AI integration and document processing.',
         '<b>Role:</b> Full Stack Developer · frontend, backend and content management.',
-        '<b>Role:</b> Full Stack development · application and data layer.'
+        '<b>Role:</b> Full Stack development · application and data layer.',
+        '<b>Role:</b> Full Stack development · interface, interactions and game logic.'
       ],
       '.project .problem': [
         '<b>Problem solved:</b> quickly onboard partner brands with their own configuration and theme, without duplicating code.',
         '<b>Problem solved:</b> automate reading and processing customer documents to speed up insurance case handling.',
         '<b>Problem solved:</b> centralize internal information and let teams manage their own content through a CMS.',
         '<b>Problem solved:</b> digitize trip organization and pilgrim tracking previously handled manually by the agency.',
-        '<b>Goal:</b> centralize stock, customer and invoicing workflows in one application.'
+        '<b>Goal:</b> centralize stock, customer and invoicing workflows in one application.',
+        '<b>Goal:</b> give children a simple, playful digital space to learn through games, adapted to the Tunisian linguistic context.'
       ],
       '#parcours .section-tag': '04. Experience',
       '#parcours .section-title': 'Experience & education.',
@@ -119,29 +122,31 @@
       '.skill-card h3': ['الواجهة الأمامية','الواجهة الخلفية','البيانات وأنظمة إدارة المحتوى','المصادقة والأمان','DevOps والبنية التحتية','الاختبارات والجودة','السحابة والذكاء الاصطناعي','التعاون'],
       '#projets .section-tag': '03. المشاريع',
       '#projets .section-title': 'مشاريع وتطبيقات ويب متكاملة.',
-      '#projets .section-lead': 'مشاريع مهنية تبرز قدرتي على العمل على المنتج وقواعد الأعمال والواجهات والخلفية والتكاملات.',
+      '#projets .section-lead': 'مشاريع مهنية وشخصية تبرز قدرتي على بناء منتجات ويب متكاملة من الواجهة إلى الخلفية وحل احتياجات واقعية.',
       '.project-details summary': ['اقرأ دراسة الحالة','اقرأ دراسة الحالة'],
-      '.case-study-link': ['اقرأ دراسة الحالة كاملة ←','اقرأ دراسة الحالة كاملة ←','اقرأ دراسة الحالة كاملة ←','اقرأ دراسة الحالة كاملة ←','عرض مستودع GitHub ←'],
+      '.case-study-link': ['اقرأ دراسة الحالة كاملة ←','اقرأ دراسة الحالة كاملة ←','اقرأ دراسة الحالة كاملة ←','اقرأ دراسة الحالة كاملة ←','عرض مستودع GitHub ←','عرض مستودع GitHub ←','جرّب النسخة التجريبية ←'],
       '.project-details p': [
         '<b>النهج:</b> مستودع موحّد كأساس مشترك، وتطبيقات Next.js متعددة لمسارات المستخدمين، وواجهات NestJS، وMongoDB وKeycloak. تتم إدارة خصوصية كل علامة عبر الإعدادات والسمات بدلًا من تكرار التطبيقات.',
         '<b>مسار العمل:</b> استرجاع المستند من نظام Veos وفق سياق عرض السعر والمستأجر، وإتاحة المعالجة عبر <code>POST /api/ocr/analyze</code>، ثم دمج Mistral Document من خلال Azure AI Foundry. يتجنب هذا العرض التفاصيل الحساسة الخاصة بالعملاء.'
       ],
-      '.project h3': ['Carene Digital','تحليل المستندات بالذكاء الاصطناعي','بوابة Altémed الداخلية','تطبيق إدارة العمرة','StockFlow'],
-      '.project .context': ['YZY Digital · منصة تأمين','Carene Digital · وحدة OCR','YZY Digital · بوابة شركة داخلية','Israa Travel Agency · ويب وهاتف','مشروع شخصي · نظام إدارة'],
+      '.project h3': ['Carene Digital','تحليل المستندات بالذكاء الاصطناعي','بوابة Altémed الداخلية','تطبيق إدارة العمرة','StockFlow','FunisLearn'],
+      '.project .context': ['YZY Digital · منصة تأمين','Carene Digital · وحدة OCR','YZY Digital · بوابة شركة داخلية','Israa Travel Agency · ويب وهاتف','مشروع شخصي · نظام إدارة المخزون والفواتير','مشروع شخصي · منصة ألعاب تعليمية'],
       '.project > p:not(.project-meta):not(.problem)': [
         'منصة تأمين متعددة العلامات التجارية والمستأجرين ضمن مستودع موحّد: واجهات NestJS وتطبيقات Next.js متعددة ولوحة الإدارة ومساحة العملاء ومسار التسعير، مع MongoDB وKeycloak.',
         'تصميم نقطة النهاية <code>POST /api/ocr/analyze</code> ودمج Mistral Document عبر Azure AI Foundry لاسترجاع المستندات من نظام Veos حسب عرض السعر والمستأجر.',
         'تطوير وصيانة بوابة داخلية باستخدام Next.js وStrapi وMySQL، بما يشمل تصميم واجهات API وإدارة المحتوى.',
         'تطبيق ويب وهاتف لإدارة العمرة، بخلفية Laravel وواجهات Vue.js وتطبيق هاتف باستخدام Flutter.',
-        'نظام لإدارة المخزون والفواتير والعملاء وعروض الأسعار والصلاحيات، موثّق باستخدام Next.js وTypeScript وPrisma وPostgreSQL.'
+        'نظام لإدارة المخزون والفواتير والعملاء وعروض الأسعار والصلاحيات، موثّق باستخدام Next.js وTypeScript وPrisma وPostgreSQL.',
+        'منصة تفاعلية للألعاب التعليمية الموجّهة للأطفال، تضم أنشطة ممتعة وواجهة مناسبة لصغار السن، مع تركيز على المحتوى العربي والتعلّم من خلال اللعب.'
       ],
-      '.project .project-meta': ['<b>الدور:</b> مطوّر Full Stack · وظائف الأعمال والواجهة وواجهات API والمصادقة.','<b>الدور:</b> مطوّر Full Stack · واجهات API والذكاء الاصطناعي ومعالجة المستندات.','<b>الدور:</b> مطوّر Full Stack · الواجهة والخلفية وإدارة المحتوى.','<b>الدور:</b> تطوير Full Stack · التطبيق وطبقة البيانات.'],
+      '.project .project-meta': ['<b>الدور:</b> مطوّر Full Stack · وظائف الأعمال والواجهة وواجهات API والمصادقة.','<b>الدور:</b> مطوّر Full Stack · واجهات API والذكاء الاصطناعي ومعالجة المستندات.','<b>الدور:</b> مطوّر Full Stack · الواجهة والخلفية وإدارة المحتوى.','<b>الدور:</b> تطوير Full Stack · التطبيق وطبقة البيانات.','<b>الدور:</b> تصميم وتطوير Full Stack · الواجهة والتفاعلات ومنطق الألعاب.'],
       '.project .problem': [
         '<b>المشكلة التي تم حلها:</b> إضافة علامات تجارية شريكة بسرعة، لكل منها إعداداتها وتصميمها، دون تكرار الشيفرة.',
         '<b>المشكلة التي تم حلها:</b> أتمتة قراءة مستندات العملاء ومعالجتها لتسريع ملفات التأمين.',
         '<b>المشكلة التي تم حلها:</b> توحيد المعلومات الداخلية وتمكين الفرق من إدارة محتواها عبر نظام CMS.',
         '<b>المشكلة التي تم حلها:</b> رقمنة تنظيم الرحلات ومتابعة المعتمرين بدلًا من الإجراءات اليدوية.',
-        '<b>الهدف:</b> توحيد إدارة المخزون والعملاء والفواتير في تطبيق واحد.'
+        '<b>الهدف:</b> توحيد إدارة المخزون والعملاء والفواتير في تطبيق واحد.',
+        '<b>الهدف:</b> توفير مساحة رقمية بسيطة وممتعة للأطفال للتعلّم عبر الألعاب، مع مراعاة السياق اللغوي التونسي.'
       ],
       '#parcours .section-tag': '04. المسار المهني',
       '#parcours .section-title': 'الخبرات المهنية والتعليم.',
