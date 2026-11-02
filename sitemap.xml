@@ -1,8 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://wael-souabni-portfolio.vercel.app/</loc></url>
-  <url><loc>https://wael-souabni-portfolio.vercel.app/projets/carene-digital/</loc></url>
-  <url><loc>https://wael-souabni-portfolio.vercel.app/projets/analyse-documentaire-ia/</loc></url>
-  <url><loc>https://wael-souabni-portfolio.vercel.app/projets/intranet-altmed/</loc></url>
-  <url><loc>https://wael-souabni-portfolio.vercel.app/projets/gestion-omra/</loc></url>
+  <url>
+    <loc>https://wael-souabni-portfolio.vercel.app/projets/carene-digital/</loc>
+    <lastmod>2026-11-02</lastmod>
+  </url>
+  <url>
+    <loc>https://wael-souabni-portfolio.vercel.app/projets/analyse-documentaire-ia/</loc>
+    <lastmod>2026-11-02</lastmod>
+  </url>
+  <url>
+    <loc>https://wael-souabni-portfolio.vercel.app/projets/intranet-altmed/</loc>
+    <lastmod>2026-11-02</lastmod>
+  </url>
+  <url>
+    <loc>https://wael-souabni-portfolio.vercel.app/projets/gestion-omra/</loc>
+    <lastmod>2026-11-02</lastmod>
+  </url>
 </urlset>
