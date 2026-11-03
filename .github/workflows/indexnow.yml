@@ -1,0 +1,88 @@
+name: Notify search engines with IndexNow
+
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: indexnow-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  submit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Wait for the Vercel production deployment
+        shell: bash
+        env:
+          SITE_URL: https://wael-souabni-portfolio.vercel.app
+          INDEXNOW_KEY: 8f3c1a7d9e624b50a4d8c2f6710be935
+        run: |
+          set -euo pipefail
+          git show HEAD:sitemap.xml > expected-sitemap.xml
+          for attempt in $(seq 1 30); do
+            if curl --fail --silent --show-error "$SITE_URL/${INDEXNOW_KEY}.txt" -o deployed-key.txt \
+              && grep --fixed-strings --line-regexp "$INDEXNOW_KEY" deployed-key.txt >/dev/null \
+              && curl --fail --silent --show-error "$SITE_URL/sitemap.xml" -o deployed-sitemap.xml \
+              && cmp --silent expected-sitemap.xml deployed-sitemap.xml; then
+              echo "Vercel deployment is serving the expected key and sitemap."
+              exit 0
+            fi
+            echo "Waiting for Vercel deployment (attempt $attempt/30)..."
+            sleep 20
+          done
+          echo "The expected key and sitemap were not available on the production domain."
+          exit 1
+
+      - name: Submit sitemap URLs to IndexNow
+        shell: bash
+        env:
+          SITE_URL: https://wael-souabni-portfolio.vercel.app
+          INDEXNOW_KEY: 8f3c1a7d9e624b50a4d8c2f6710be935
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json
+          import os
+          import urllib.request
+          import xml.etree.ElementTree as ET
+
+          site = os.environ["SITE_URL"].rstrip("/")
+          key = os.environ["INDEXNOW_KEY"]
+          root = ET.parse("deployed-sitemap.xml").getroot()
+          ns = {"sm": "http://www.sitemaps.org/schemas/sitemap/0.9"}
+          urls = [
+              node.text.strip()
+              for node in root.findall("sm:url/sm:loc", ns)
+              if node.text and node.text.strip().startswith(site + "/")
+          ]
+          if not urls:
+              raise SystemExit("No URLs for the configured site were found in sitemap.xml.")
+
+          payload = {
+              "host": "wael-souabni-portfolio.vercel.app",
+              "key": key,
+              "keyLocation": f"{site}/{key}.txt",
+              "urlList": urls,
+          }
+          request = urllib.request.Request(
+              "https://api.indexnow.org/indexnow",
+              data=json.dumps(payload).encode("utf-8"),
+              headers={"Content-Type": "application/json; charset=utf-8"},
+              method="POST",
+          )
+          try:
+              with urllib.request.urlopen(request, timeout=30) as response:
+                  print(f"IndexNow accepted the submission: HTTP {response.status}")
+                  print(f"Submitted {len(urls)} sitemap URLs.")
+          except Exception as error:
+              raise SystemExit(f"IndexNow submission failed: {error}")
+          PY
