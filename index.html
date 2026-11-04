@@ -262,6 +262,7 @@
       width: 44px; height: 44px; border-radius: 12px; display: grid; place-items: center;
       background: var(--accent-soft); color: var(--accent); margin-bottom: 18px;
     }
+    .skill-card .ico { transition: transform .3s ease, background .3s ease, color .3s ease; }
     .skill-card .ico svg { width: 22px; height: 22px; }
     .skill-card h3 { font-size: 1.05rem; margin-bottom: 14px; }
     .chips { display: flex; flex-wrap: wrap; gap: 8px; }
@@ -269,6 +270,11 @@
       font-family: var(--mono); font-size: .76rem;
       padding: 5px 11px; border-radius: 999px;
       background: var(--bg-soft); border: 1px solid var(--border); color: var(--text-muted);
+      transition: color .2s ease, border-color .2s ease, transform .2s ease;
+    }
+    @media (hover: hover) and (pointer: fine) {
+      .skill-card:hover .ico { transform: translateY(-2px) rotate(-4deg); }
+      .skill-card .chip:hover { color: var(--accent); border-color: var(--accent); transform: translateY(-1px); }
     }
 
     /* =========================================================
@@ -328,7 +334,11 @@
     .timeline::before {
       content: ""; position: absolute; left: 6px; top: 6px; bottom: 6px; width: 2px;
       background: linear-gradient(var(--accent), var(--accent-2), transparent);
+      transform: scaleY(0);
+      transform-origin: top;
+      transition: transform 1s cubic-bezier(.2,.8,.2,1);
     }
+    .timeline.is-visible::before { transform: scaleY(1); }
     .tl-item { position: relative; padding-bottom: 38px; }
     .tl-item:last-child { padding-bottom: 0; }
     .tl-item::before {
@@ -489,12 +499,14 @@
     /* =========================================================
        10. ANIMATIONS D'APPARITION AU SCROLL
        ========================================================= */
-    .reveal { opacity: 0; transform: translateY(24px); transition: opacity .7s ease, transform .7s ease; }
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity .65s ease, transform .65s cubic-bezier(.2,.8,.2,1); transition-delay: var(--reveal-delay, 0ms); }
     .reveal.visible { opacity: 1; transform: none; }
     @media (prefers-reduced-motion: reduce) {
       html { scroll-behavior: auto; }
       .reveal { opacity: 1; transform: none; transition: none; }
       .floating-card { animation: none; }
+      .timeline::before { transform: scaleY(1); transition: none; }
+      .skill-card .ico, .chip { transition: none; }
     }
 
     /* =========================================================
@@ -1456,6 +1468,27 @@
       }, { threshold: 0.12 });
       document.querySelectorAll('.reveal').forEach((el) => revealObserver.observe(el));
 
+      // Décalage léger et limité pour donner du rythme aux grilles et à la timeline.
+      document.querySelectorAll('.skills-grid .skill-card, .timeline .tl-item').forEach((el, index) => {
+        el.style.setProperty('--reveal-delay', Math.min(index, 4) * 65 + 'ms');
+      });
+
+      // La ligne du parcours se révèle une seule fois, sans boucle d'animation.
+      const timeline = document.querySelector('.timeline');
+      if (timeline) {
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          timeline.classList.add('is-visible');
+        } else {
+          const timelineObserver = new IntersectionObserver(([entry]) => {
+            if (entry.isIntersecting) {
+              timeline.classList.add('is-visible');
+              timelineObserver.disconnect();
+            }
+          }, { threshold: 0.18 });
+          timelineObserver.observe(timeline);
+        }
+      }
+
       /* --- Lien actif dans la navigation selon la section visible --- */
       const links = [...navLinks.querySelectorAll('a')];
       const sectionObserver = new IntersectionObserver((entries) => {
@@ -1507,7 +1540,7 @@
       const canvas = document.getElementById('particles');
       const hero = document.getElementById('accueil');
       const ctx = canvas.getContext('2d');
-      let w = 0, h = 0, dpr = 1, points = [], visible = true;
+      let w = 0, h = 0, dpr = 1, points = [], visible = false, animationFrame = null;
       const mouse = { x: -9999, y: -9999 };
       const LINK = 130;          // distance max pour relier deux points
       const REPEL = 120;         // rayon d'influence de la souris
@@ -1518,7 +1551,8 @@
         canvas.width = w * dpr; canvas.height = h * dpr;
         ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
         // Densité adaptée à la taille de l'écran
-        const count = Math.round(Math.min(110, (w * h) / 14000));
+        const isSmallScreen = window.matchMedia('(max-width: 760px)').matches;
+        const count = Math.round(Math.min(isSmallScreen ? 48 : 90, (w * h) / (isSmallScreen ? 22000 : 14000)));
         points = Array.from({ length: count }, () => ({
           x: Math.random() * w, y: Math.random() * h,
           vx: (Math.random() - 0.5) * 0.35, vy: (Math.random() - 0.5) * 0.35,
@@ -1561,9 +1595,26 @@
         }
       };
 
+      const stopLoop = () => {
+        if (animationFrame !== null) {
+          cancelAnimationFrame(animationFrame);
+          animationFrame = null;
+        }
+      };
       const loop = () => {
-        if (visible) draw();
-        requestAnimationFrame(loop);
+        animationFrame = null;
+        if (!visible || document.hidden || reducedMotion) return;
+        draw();
+        animationFrame = requestAnimationFrame(loop);
+      };
+      const startLoop = () => {
+        if (reducedMotion || !visible || document.hidden || animationFrame !== null) return;
+        animationFrame = requestAnimationFrame(loop);
+      };
+      const updateVisibility = ([entry]) => {
+        visible = entry.isIntersecting;
+        if (visible) startLoop();
+        else stopLoop();
       };
 
       hero.addEventListener('pointermove', (e) => {
@@ -1571,11 +1622,19 @@
         mouse.x = e.clientX - r.left; mouse.y = e.clientY - r.top;
       });
       hero.addEventListener('pointerleave', () => { mouse.x = mouse.y = -9999; });
-      // Pause de l'animation quand le Hero n'est plus visible (économie CPU / batterie)
-      new IntersectionObserver(([e]) => { visible = e.isIntersecting; }).observe(hero);
-      window.addEventListener('resize', resize);
+      // Suspend réellement la boucle hors écran ou lorsque l'onglet est masqué.
+      const heroObserver = new IntersectionObserver(updateVisibility, { threshold: 0.01 });
+      heroObserver.observe(hero);
+      document.addEventListener('visibilitychange', () => {
+        if (document.hidden) stopLoop();
+        else startLoop();
+      });
+      window.addEventListener('resize', () => {
+        resize();
+        if (reducedMotion) draw();
+      }, { passive: true });
       resize();
-      if (reducedMotion) draw(); else loop();
+      if (reducedMotion) draw();
     })();
 
     /* =========================================================
